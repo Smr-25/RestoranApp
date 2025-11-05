@@ -1,0 +1,14 @@
+C:\Users\samiraa\Desktop\MiniApp2\RestaurantApp\RestaurantApp.PL\bin\Debug\net8.0\RestaurantApp.PL.exe
+C:\Users\samiraa\Desktop\MiniApp2\RestaurantApp\RestaurantApp.PL\bin\Debug\net8.0\RestaurantApp.PL.deps.json
+C:\Users\samiraa\Desktop\MiniApp2\RestaurantApp\RestaurantApp.PL\bin\Debug\net8.0\RestaurantApp.PL.runtimeconfig.json
+C:\Users\samiraa\Desktop\MiniApp2\RestaurantApp\RestaurantApp.PL\bin\Debug\net8.0\RestaurantApp.PL.dll
+C:\Users\samiraa\Desktop\MiniApp2\RestaurantApp\RestaurantApp.PL\bin\Debug\net8.0\RestaurantApp.PL.pdb
+C:\Users\samiraa\Desktop\MiniApp2\RestaurantApp\RestaurantApp.PL\obj\Debug\net8.0\RestaurantApp.PL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\samiraa\Desktop\MiniApp2\RestaurantApp\RestaurantApp.PL\obj\Debug\net8.0\RestaurantApp.PL.AssemblyInfoInputs.cache
+C:\Users\samiraa\Desktop\MiniApp2\RestaurantApp\RestaurantApp.PL\obj\Debug\net8.0\RestaurantApp.PL.AssemblyInfo.cs
+C:\Users\samiraa\Desktop\MiniApp2\RestaurantApp\RestaurantApp.PL\obj\Debug\net8.0\RestaurantApp.PL.csproj.CoreCompileInputs.cache
+C:\Users\samiraa\Desktop\MiniApp2\RestaurantApp\RestaurantApp.PL\obj\Debug\net8.0\RestaurantApp.PL.dll
+C:\Users\samiraa\Desktop\MiniApp2\RestaurantApp\RestaurantApp.PL\obj\Debug\net8.0\refint\RestaurantApp.PL.dll
+C:\Users\samiraa\Desktop\MiniApp2\RestaurantApp\RestaurantApp.PL\obj\Debug\net8.0\RestaurantApp.PL.pdb
+C:\Users\samiraa\Desktop\MiniApp2\RestaurantApp\RestaurantApp.PL\obj\Debug\net8.0\RestaurantApp.PL.genruntimeconfig.cache
+C:\Users\samiraa\Desktop\MiniApp2\RestaurantApp\RestaurantApp.PL\obj\Debug\net8.0\ref\RestaurantApp.PL.dll
