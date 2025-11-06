@@ -18,6 +18,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\RestaurantApp.BBL\RestaurantApp.BBL.csproj" />
 	  <ProjectReference Include="..\RestaurantApp.Core\RestaurantApp.Core.csproj" />
 	</ItemGroup>
 

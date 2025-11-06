@@ -1441,6 +1441,19 @@
           }
         }
       },
+      "RestaurantApp.BBL/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "RestaurantApp.Core": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/RestaurantApp.BBL.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/RestaurantApp.BBL.dll": {}
+        }
+      },
       "RestaurantApp.Core/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
@@ -3754,6 +3767,11 @@
         "useSharedDesignerContext.txt"
       ]
     },
+    "RestaurantApp.BBL/1.0.0": {
+      "type": "project",
+      "path": "../RestaurantApp.BBL/RestaurantApp.BBL.csproj",
+      "msbuildProject": "../RestaurantApp.BBL/RestaurantApp.BBL.csproj"
+    },
     "RestaurantApp.Core/1.0.0": {
       "type": "project",
       "path": "../RestaurantApp.Core/RestaurantApp.Core.csproj",
@@ -3767,6 +3785,7 @@
       "Microsoft.EntityFrameworkCore.SqlServer >= 8.0.0",
       "Microsoft.EntityFrameworkCore.Tools >= 8.0.0",
       "Microsoft.Extensions.DependencyInjection >= 8.0.0",
+      "RestaurantApp.BBL >= 1.0.0",
       "RestaurantApp.Core >= 1.0.0"
     ]
   },
@@ -3803,6 +3822,9 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
+            "C:\\Users\\samiraa\\Desktop\\MiniAppAll\\RestaurantApp\\RestaurantApp.BBL\\RestaurantApp.BBL.csproj": {
+              "projectPath": "C:\\Users\\samiraa\\Desktop\\MiniAppAll\\RestaurantApp\\RestaurantApp.BBL\\RestaurantApp.BBL.csproj"
+            },
             "C:\\Users\\samiraa\\Desktop\\MiniAppAll\\RestaurantApp\\RestaurantApp.Core\\RestaurantApp.Core.csproj": {
               "projectPath": "C:\\Users\\samiraa\\Desktop\\MiniAppAll\\RestaurantApp\\RestaurantApp.Core\\RestaurantApp.Core.csproj"
             }
@@ -3819,7 +3841,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "10.0.100"
+      "SdkAnalysisLevel": "9.0.300"
     },
     "frameworks": {
       "net8.0": {
@@ -3864,7 +3886,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.100-rc.2.25502.107/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

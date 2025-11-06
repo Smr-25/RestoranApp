@@ -7,14 +7,30 @@
   "targets": {
     ".NETCoreApp,Version=v8.0": {
       "RestaurantApp.BBL/1.0.0": {
+        "dependencies": {
+          "RestaurantApp.Core": "1.0.0"
+        },
         "runtime": {
           "RestaurantApp.BBL.dll": {}
+        }
+      },
+      "RestaurantApp.Core/1.0.0": {
+        "runtime": {
+          "RestaurantApp.Core.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       }
     }
   },
   "libraries": {
     "RestaurantApp.BBL/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "RestaurantApp.Core/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

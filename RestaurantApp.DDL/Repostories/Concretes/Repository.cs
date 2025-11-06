@@ -1,10 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
-using RestaurantApp.DDL.Common;
-using RestaurantApp.DDL.Data;
-using RestaurantApp.DDL.Repostories.Intefaces;
-
-namespace RestaurantApp.DDL.Repostories.Concretes
+﻿namespace RestaurantApp.DDL.Repostories.Concretes
 {
     public class Repository<T> : IRepository<T>where T : BaseEntity
     {
@@ -16,6 +10,30 @@ namespace RestaurantApp.DDL.Repostories.Concretes
         }
 
         public DbSet<T> Table {  get; set; }
+
+        public async Task AddAsync(T entity)
+        {
+            await Table.AddAsync(entity);
+            await SaveChangesAsync();
+        }
+
+        public async Task UpdateAsync(T entity)
+        {
+             Table.Update(entity);
+            await SaveChangesAsync();
+        }
+
+        public async Task RemoveAsync(T entity)
+        {
+            Table.Remove(entity);
+            await SaveChangesAsync();
+        }
+
+        public async Task SaveChangesAsync()
+        {
+           await  _context.SaveChangesAsync();
+        }
+
 
 
     }

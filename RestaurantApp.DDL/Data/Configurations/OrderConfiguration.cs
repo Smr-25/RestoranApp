@@ -1,9 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using RestaurantApp.Core.Models;
-using System;
-
-namespace RestaurantApp.DDL.Data.Configurations
+﻿namespace RestaurantApp.DDL.Data.Configurations
 {
     public class OrderConfiguration : IEntityTypeConfiguration<Order>
     {
