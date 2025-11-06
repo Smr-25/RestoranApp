@@ -35,13 +35,41 @@ namespace RestaurantApp.DDL.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Category", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Başlanğıclar"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Əsas yeməklər"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Salatlar"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Desertlər"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "İçkilər"
+                        });
                 });
 
             modelBuilder.Entity("RestaurantApp.Core.Models.MenuItem", b =>
@@ -57,7 +85,8 @@ namespace RestaurantApp.DDL.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
@@ -66,7 +95,187 @@ namespace RestaurantApp.DDL.Data.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("MenuItems");
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("MenuItem", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CategoryId = 1,
+                            Name = "Çörək Səbəti",
+                            Price = 3.50m
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CategoryId = 1,
+                            Name = "Pomidor Şorbası",
+                            Price = 5.00m
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CategoryId = 1,
+                            Name = "Kükü",
+                            Price = 4.50m
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CategoryId = 1,
+                            Name = "Zeytun",
+                            Price = 3.00m
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CategoryId = 1,
+                            Name = "Pendir Seçimi",
+                            Price = 6.50m
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CategoryId = 2,
+                            Name = "Toyuq Şiş",
+                            Price = 12.00m
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CategoryId = 2,
+                            Name = "Lülə Kabab",
+                            Price = 15.00m
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CategoryId = 2,
+                            Name = "Balıq Filesi",
+                            Price = 18.00m
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CategoryId = 2,
+                            Name = "Plov",
+                            Price = 10.00m
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CategoryId = 2,
+                            Name = "Biftek",
+                            Price = 20.00m
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CategoryId = 3,
+                            Name = "Çoban Salatı",
+                            Price = 5.50m
+                        },
+                        new
+                        {
+                            Id = 12,
+                            CategoryId = 3,
+                            Name = "Sezar Salatı",
+                            Price = 7.00m
+                        },
+                        new
+                        {
+                            Id = 13,
+                            CategoryId = 3,
+                            Name = "Yunan Salatı",
+                            Price = 6.50m
+                        },
+                        new
+                        {
+                            Id = 14,
+                            CategoryId = 3,
+                            Name = "Mangal Salatı",
+                            Price = 6.00m
+                        },
+                        new
+                        {
+                            Id = 15,
+                            CategoryId = 3,
+                            Name = "Göyərti Salatı",
+                            Price = 4.50m
+                        },
+                        new
+                        {
+                            Id = 16,
+                            CategoryId = 4,
+                            Name = "Tiramisu",
+                            Price = 6.00m
+                        },
+                        new
+                        {
+                            Id = 17,
+                            CategoryId = 4,
+                            Name = "Şokolad Tortu",
+                            Price = 5.50m
+                        },
+                        new
+                        {
+                            Id = 18,
+                            CategoryId = 4,
+                            Name = "Baklava",
+                            Price = 4.00m
+                        },
+                        new
+                        {
+                            Id = 19,
+                            CategoryId = 4,
+                            Name = "Profiterol",
+                            Price = 5.00m
+                        },
+                        new
+                        {
+                            Id = 20,
+                            CategoryId = 4,
+                            Name = "Cheesecake",
+                            Price = 6.50m
+                        },
+                        new
+                        {
+                            Id = 21,
+                            CategoryId = 5,
+                            Name = "Kola",
+                            Price = 2.00m
+                        },
+                        new
+                        {
+                            Id = 22,
+                            CategoryId = 5,
+                            Name = "Portağal Şirəsi",
+                            Price = 3.50m
+                        },
+                        new
+                        {
+                            Id = 23,
+                            CategoryId = 5,
+                            Name = "Ayran",
+                            Price = 2.50m
+                        },
+                        new
+                        {
+                            Id = 24,
+                            CategoryId = 5,
+                            Name = "Türk Qəhvəsi",
+                            Price = 3.00m
+                        },
+                        new
+                        {
+                            Id = 25,
+                            CategoryId = 5,
+                            Name = "Çay",
+                            Price = 1.50m
+                        });
                 });
 
             modelBuilder.Entity("RestaurantApp.Core.Models.Order", b =>
@@ -78,14 +287,48 @@ namespace RestaurantApp.DDL.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.Property<decimal>("TotalAmount")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Order", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Date = new DateTime(2024, 1, 15, 12, 30, 0, 0, DateTimeKind.Unspecified),
+                            TotalAmount = 35.50m
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Date = new DateTime(2024, 1, 15, 13, 15, 0, 0, DateTimeKind.Unspecified),
+                            TotalAmount = 52.00m
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Date = new DateTime(2024, 1, 15, 14, 0, 0, 0, DateTimeKind.Unspecified),
+                            TotalAmount = 28.50m
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Date = new DateTime(2024, 1, 16, 11, 45, 0, 0, DateTimeKind.Unspecified),
+                            TotalAmount = 67.00m
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Date = new DateTime(2024, 1, 16, 12, 20, 0, 0, DateTimeKind.Unspecified),
+                            TotalAmount = 41.50m
+                        });
                 });
 
             modelBuilder.Entity("RestaurantApp.Core.Models.OrderItem", b =>
@@ -111,14 +354,136 @@ namespace RestaurantApp.DDL.Data.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderItems");
+                    b.ToTable("OrderItem", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Count = 2,
+                            MenuItemId = 6,
+                            OrderId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Count = 1,
+                            MenuItemId = 2,
+                            OrderId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Count = 2,
+                            MenuItemId = 21,
+                            OrderId = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Count = 1,
+                            MenuItemId = 7,
+                            OrderId = 2
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Count = 3,
+                            MenuItemId = 11,
+                            OrderId = 2
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Count = 2,
+                            MenuItemId = 23,
+                            OrderId = 2
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Count = 2,
+                            MenuItemId = 9,
+                            OrderId = 3
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Count = 1,
+                            MenuItemId = 15,
+                            OrderId = 3
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Count = 2,
+                            MenuItemId = 25,
+                            OrderId = 3
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Count = 1,
+                            MenuItemId = 8,
+                            OrderId = 4
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Count = 2,
+                            MenuItemId = 12,
+                            OrderId = 4
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Count = 1,
+                            MenuItemId = 18,
+                            OrderId = 4
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Count = 3,
+                            MenuItemId = 24,
+                            OrderId = 4
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Count = 2,
+                            MenuItemId = 10,
+                            OrderId = 5
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Count = 1,
+                            MenuItemId = 13,
+                            OrderId = 5
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Count = 2,
+                            MenuItemId = 16,
+                            OrderId = 5
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Count = 1,
+                            MenuItemId = 22,
+                            OrderId = 5
+                        });
                 });
 
             modelBuilder.Entity("RestaurantApp.Core.Models.Category", b =>
                 {
                     b.HasOne("RestaurantApp.Core.Models.Category", null)
                         .WithMany("Categories")
-                        .HasForeignKey("CategoryId");
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("RestaurantApp.Core.Models.MenuItem", b =>
@@ -126,7 +491,7 @@ namespace RestaurantApp.DDL.Data.Migrations
                     b.HasOne("RestaurantApp.Core.Models.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Category");
@@ -137,7 +502,7 @@ namespace RestaurantApp.DDL.Data.Migrations
                     b.HasOne("RestaurantApp.Core.Models.MenuItem", "MenuItem")
                         .WithMany()
                         .HasForeignKey("MenuItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("RestaurantApp.Core.Models.Order", "Order")

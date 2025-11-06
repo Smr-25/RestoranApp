@@ -1,0 +1,12 @@
+C:\Users\samiraa\Desktop\MiniAppAll\RestaurantApp\RestaurantApp.BBL\bin\Debug\net8.0\RestaurantApp.BBL.deps.json
+C:\Users\samiraa\Desktop\MiniAppAll\RestaurantApp\RestaurantApp.BBL\bin\Debug\net8.0\RestaurantApp.BBL.dll
+C:\Users\samiraa\Desktop\MiniAppAll\RestaurantApp\RestaurantApp.BBL\bin\Debug\net8.0\RestaurantApp.BBL.pdb
+C:\Users\samiraa\Desktop\MiniAppAll\RestaurantApp\RestaurantApp.BBL\obj\Debug\net8.0\RestaurantApp.BBL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\samiraa\Desktop\MiniAppAll\RestaurantApp\RestaurantApp.BBL\obj\Debug\net8.0\RestaurantApp.BBL.AssemblyInfoInputs.cache
+C:\Users\samiraa\Desktop\MiniAppAll\RestaurantApp\RestaurantApp.BBL\obj\Debug\net8.0\RestaurantApp.BBL.AssemblyInfo.cs
+C:\Users\samiraa\Desktop\MiniAppAll\RestaurantApp\RestaurantApp.BBL\obj\Debug\net8.0\RestaurantApp.BBL.csproj.CoreCompileInputs.cache
+C:\Users\samiraa\Desktop\MiniAppAll\RestaurantApp\RestaurantApp.BBL\obj\Debug\net8.0\RestaurantApp.BBL.sourcelink.json
+C:\Users\samiraa\Desktop\MiniAppAll\RestaurantApp\RestaurantApp.BBL\obj\Debug\net8.0\RestaurantApp.BBL.dll
+C:\Users\samiraa\Desktop\MiniAppAll\RestaurantApp\RestaurantApp.BBL\obj\Debug\net8.0\refint\RestaurantApp.BBL.dll
+C:\Users\samiraa\Desktop\MiniAppAll\RestaurantApp\RestaurantApp.BBL\obj\Debug\net8.0\RestaurantApp.BBL.pdb
+C:\Users\samiraa\Desktop\MiniAppAll\RestaurantApp\RestaurantApp.BBL\obj\Debug\net8.0\ref\RestaurantApp.BBL.dll

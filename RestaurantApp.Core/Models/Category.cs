@@ -1,4 +1,5 @@
 ﻿
+using RestaurantApp.DDL.Common;
 
 namespace RestaurantApp.Core.Models
 {

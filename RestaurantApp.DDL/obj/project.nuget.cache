@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "OGmQ2DJKH7g=",
+  "dgSpecHash": "W9VRsUVTRpo=",
   "success": true,
-  "projectFilePath": "C:\\Users\\samiraa\\Desktop\\MiniApp2\\RestaurantApp\\RestaurantApp.DDL\\RestaurantApp.DDL.csproj",
+  "projectFilePath": "C:\\Users\\samiraa\\Desktop\\MiniAppAll\\RestaurantApp\\RestaurantApp.DDL\\RestaurantApp.DDL.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\samiraa\\.nuget\\packages\\automapper\\15.1.0\\automapper.15.1.0.nupkg.sha512",
     "C:\\Users\\samiraa\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",

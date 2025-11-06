@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "RestaurantApp.BBL/1.0.0": {
+        "runtime": {
+          "RestaurantApp.BBL.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "RestaurantApp.BBL/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

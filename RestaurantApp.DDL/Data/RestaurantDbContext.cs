@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RestaurantApp.Core.Models;
+using RestaurantApp.DDL.Data.Configurations;
 
 namespace RestaurantApp.DDL.Data
 {
@@ -13,9 +14,18 @@ namespace RestaurantApp.DDL.Data
         DbSet<MenuItem> MenuItems { get; set; }
 
         DbSet<Category> Categories { get; set; }
+        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Server=MOON01\\SQLEXPRESS;Database=RestaurantAppDb;Trusted_Connection=True;TrustServerCertificate=True");
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(RestaurantDbContext).Assembly);
+        
         }
     }
 }

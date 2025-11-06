@@ -1,0 +1,41 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using RestaurantApp.Core.Models;
+
+namespace RestaurantApp.DDL.Data.SeedData
+{
+    public class OrderItemSeedData : IEntityTypeConfiguration<OrderItem>
+    {
+        public void Configure(EntityTypeBuilder<OrderItem> builder)
+        {
+            builder.HasData(
+                // Order 1 items
+                new OrderItem { Id = 1, OrderId = 1, Count = 2 },
+                new OrderItem { Id = 2, OrderId = 1, Count = 1 },
+                new OrderItem { Id = 3, OrderId = 1, Count = 2 },
+                
+                // Order 2 items
+                new OrderItem { Id = 4, OrderId = 2, Count = 1 },
+                new OrderItem { Id = 5, OrderId = 2, Count = 3 },
+                new OrderItem { Id = 6, OrderId = 2, Count = 2 },
+                
+                // Order 3 items
+                new OrderItem { Id = 7, OrderId = 3, Count = 2 },
+                new OrderItem { Id = 8, OrderId = 3, Count = 1 },
+                new OrderItem { Id = 9, OrderId = 3, Count = 2 },
+                
+                // Order 4 items
+                new OrderItem { Id = 10, OrderId = 4, Count = 1 },
+                new OrderItem { Id = 11, OrderId = 4, Count = 2 },
+                new OrderItem { Id = 12, OrderId = 4, Count = 1 },
+                new OrderItem { Id = 13, OrderId = 4, Count = 3 },
+                
+                // Order 5 items
+                new OrderItem { Id = 14, OrderId = 5, Count = 2 },
+                new OrderItem { Id = 15, OrderId = 5, Count = 1 },
+                new OrderItem { Id = 16, OrderId = 5, Count = 2 },
+                new OrderItem { Id = 17, OrderId = 5, Count = 1 }
+            );
+        }
+    }
+}
