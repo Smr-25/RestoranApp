@@ -35,6 +35,7 @@ namespace RestaurantApp.BBL.Services
         {
             return await _repository.Table
                 .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.MenuItem)
                 .FirstOrDefaultAsync(o => o.Date.Date == date.Date);
         }
 
@@ -42,6 +43,7 @@ namespace RestaurantApp.BBL.Services
         {
             return await _repository.Table
                 .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.MenuItem)
                 .FirstOrDefaultAsync(o => o.Id == id);
         }
 
@@ -49,7 +51,25 @@ namespace RestaurantApp.BBL.Services
         {
             return await _repository.Table
                 .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.MenuItem)
                 .Where(o => o.TotalAmount >= minPrice && o.TotalAmount <= maxPrice)
+                .ToListAsync();
+        }
+
+        public async Task<List<Order>> GetAllOrdersAsync()
+        {
+            return await _repository.Table
+                .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.MenuItem)
+                .ToListAsync();
+        }
+
+        public async Task<List<Order>> GetOrdersByDateRangeAsync(DateTime startDate, DateTime endDate)
+        {
+            return await _repository.Table
+                .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.MenuItem)
+                .Where(o => o.Date.Date >= startDate.Date && o.Date.Date <= endDate.Date)
                 .ToListAsync();
         }
     }

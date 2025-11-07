@@ -4,14 +4,96 @@
     "/Users/asmrofficialfinder/Documents/CodeAcademyMiniApp/RestaurantApp/RestoranApp/RestaurantApp.PL/RestaurantApp.PL.csproj": {}
   },
   "projects": {
-    "/Users/asmrofficialfinder/Documents/CodeAcademyMiniApp/RestaurantApp/RestoranApp/RestaurantApp.PL/RestaurantApp.PL.csproj": {
+    "/Users/asmrofficialfinder/Documents/CodeAcademyMiniApp/RestaurantApp/RestoranApp/RestaurantApp.BBL/RestaurantApp.BBL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/asmrofficialfinder/Documents/CodeAcademyMiniApp/RestaurantApp/RestoranApp/RestaurantApp.PL/RestaurantApp.PL.csproj",
-        "projectName": "RestaurantApp.PL",
-        "projectPath": "/Users/asmrofficialfinder/Documents/CodeAcademyMiniApp/RestaurantApp/RestoranApp/RestaurantApp.PL/RestaurantApp.PL.csproj",
+        "projectUniqueName": "/Users/asmrofficialfinder/Documents/CodeAcademyMiniApp/RestaurantApp/RestoranApp/RestaurantApp.BBL/RestaurantApp.BBL.csproj",
+        "projectName": "RestaurantApp.BBL",
+        "projectPath": "/Users/asmrofficialfinder/Documents/CodeAcademyMiniApp/RestaurantApp/RestoranApp/RestaurantApp.BBL/RestaurantApp.BBL.csproj",
         "packagesPath": "/Users/asmrofficialfinder/.nuget/packages/",
-        "outputPath": "/Users/asmrofficialfinder/Documents/CodeAcademyMiniApp/RestaurantApp/RestoranApp/RestaurantApp.PL/obj/",
+        "outputPath": "/Users/asmrofficialfinder/Documents/CodeAcademyMiniApp/RestaurantApp/RestoranApp/RestaurantApp.BBL/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/asmrofficialfinder/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/Users/asmrofficialfinder/Documents/CodeAcademyMiniApp/RestaurantApp/RestoranApp/RestaurantApp.Core/RestaurantApp.Core.csproj": {
+                "projectPath": "/Users/asmrofficialfinder/Documents/CodeAcademyMiniApp/RestaurantApp/RestoranApp/RestaurantApp.Core/RestaurantApp.Core.csproj"
+              },
+              "/Users/asmrofficialfinder/Documents/CodeAcademyMiniApp/RestaurantApp/RestoranApp/RestaurantApp.DDL/RestaurantApp.DDL.csproj": {
+                "projectPath": "/Users/asmrofficialfinder/Documents/CodeAcademyMiniApp/RestaurantApp/RestoranApp/RestaurantApp.DDL/RestaurantApp.DDL.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.19, 8.0.19]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.19, 8.0.19]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.304/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/asmrofficialfinder/Documents/CodeAcademyMiniApp/RestaurantApp/RestoranApp/RestaurantApp.Core/RestaurantApp.Core.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/asmrofficialfinder/Documents/CodeAcademyMiniApp/RestaurantApp/RestoranApp/RestaurantApp.Core/RestaurantApp.Core.csproj",
+        "projectName": "RestaurantApp.Core",
+        "projectPath": "/Users/asmrofficialfinder/Documents/CodeAcademyMiniApp/RestaurantApp/RestoranApp/RestaurantApp.Core/RestaurantApp.Core.csproj",
+        "packagesPath": "/Users/asmrofficialfinder/.nuget/packages/",
+        "outputPath": "/Users/asmrofficialfinder/Documents/CodeAcademyMiniApp/RestaurantApp/RestoranApp/RestaurantApp.Core/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/asmrofficialfinder/.nuget/NuGet/NuGet.Config"
@@ -43,6 +125,192 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.19, 8.0.19]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.19, 8.0.19]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.304/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/asmrofficialfinder/Documents/CodeAcademyMiniApp/RestaurantApp/RestoranApp/RestaurantApp.DDL/RestaurantApp.DDL.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/asmrofficialfinder/Documents/CodeAcademyMiniApp/RestaurantApp/RestoranApp/RestaurantApp.DDL/RestaurantApp.DDL.csproj",
+        "projectName": "RestaurantApp.DDL",
+        "projectPath": "/Users/asmrofficialfinder/Documents/CodeAcademyMiniApp/RestaurantApp/RestoranApp/RestaurantApp.DDL/RestaurantApp.DDL.csproj",
+        "packagesPath": "/Users/asmrofficialfinder/.nuget/packages/",
+        "outputPath": "/Users/asmrofficialfinder/Documents/CodeAcademyMiniApp/RestaurantApp/RestoranApp/RestaurantApp.DDL/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/asmrofficialfinder/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/Users/asmrofficialfinder/Documents/CodeAcademyMiniApp/RestaurantApp/RestoranApp/RestaurantApp.Core/RestaurantApp.Core.csproj": {
+                "projectPath": "/Users/asmrofficialfinder/Documents/CodeAcademyMiniApp/RestaurantApp/RestoranApp/RestaurantApp.Core/RestaurantApp.Core.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[15.1.0, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Microsoft.Extensions.DependencyInjection": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.19, 8.0.19]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.19, 8.0.19]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.304/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/asmrofficialfinder/Documents/CodeAcademyMiniApp/RestaurantApp/RestoranApp/RestaurantApp.PL/RestaurantApp.PL.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/asmrofficialfinder/Documents/CodeAcademyMiniApp/RestaurantApp/RestoranApp/RestaurantApp.PL/RestaurantApp.PL.csproj",
+        "projectName": "RestaurantApp.PL",
+        "projectPath": "/Users/asmrofficialfinder/Documents/CodeAcademyMiniApp/RestaurantApp/RestoranApp/RestaurantApp.PL/RestaurantApp.PL.csproj",
+        "packagesPath": "/Users/asmrofficialfinder/.nuget/packages/",
+        "outputPath": "/Users/asmrofficialfinder/Documents/CodeAcademyMiniApp/RestaurantApp/RestoranApp/RestaurantApp.PL/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/asmrofficialfinder/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/Users/asmrofficialfinder/Documents/CodeAcademyMiniApp/RestaurantApp/RestoranApp/RestaurantApp.BBL/RestaurantApp.BBL.csproj": {
+                "projectPath": "/Users/asmrofficialfinder/Documents/CodeAcademyMiniApp/RestaurantApp/RestoranApp/RestaurantApp.BBL/RestaurantApp.BBL.csproj"
+              },
+              "/Users/asmrofficialfinder/Documents/CodeAcademyMiniApp/RestaurantApp/RestoranApp/RestaurantApp.Core/RestaurantApp.Core.csproj": {
+                "projectPath": "/Users/asmrofficialfinder/Documents/CodeAcademyMiniApp/RestaurantApp/RestoranApp/RestaurantApp.Core/RestaurantApp.Core.csproj"
+              },
+              "/Users/asmrofficialfinder/Documents/CodeAcademyMiniApp/RestaurantApp/RestoranApp/RestaurantApp.DDL/RestaurantApp.DDL.csproj": {
+                "projectPath": "/Users/asmrofficialfinder/Documents/CodeAcademyMiniApp/RestaurantApp/RestoranApp/RestaurantApp.DDL/RestaurantApp.DDL.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Microsoft.Extensions.DependencyInjection": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

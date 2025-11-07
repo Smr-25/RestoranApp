@@ -7,4 +7,15 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\RestaurantApp.BBL\RestaurantApp.BBL.csproj" />
+    <ProjectReference Include="..\RestaurantApp.Core\RestaurantApp.Core.csproj" />
+    <ProjectReference Include="..\RestaurantApp.DDL\RestaurantApp.DDL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+  </ItemGroup>
+
 </Project>

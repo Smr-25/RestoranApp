@@ -1,7 +1,7 @@
 ﻿using RestaurantApp.BBL.Interfaces;
 using RestaurantApp.Core.Models;
-using RestaurantApp.DDL.Data;
 using RestaurantApp.DDL.Repostories.Intefaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace RestaurantApp.BBL.Services
 {
@@ -49,6 +49,46 @@ namespace RestaurantApp.BBL.Services
             await _repository.UpdateAsync(existing);
         }
 
+        public async Task<List<MenuItem>> GetMenuItemsByCategoryAsync(int categoryId)
+        {
+            return await _repository.Table
+                .Include(m => m.Category)
+                .Where(m => m.CategoryId == categoryId)
+                .ToListAsync();
+        }
+
+        public async Task<List<MenuItem>> GetMenuItemsByPriceRangeAsync(decimal minPrice, decimal maxPrice)
+        {
+            return await _repository.Table
+                .Include(m => m.Category)
+                .Where(m => m.Price >= minPrice && m.Price <= maxPrice)
+                .ToListAsync();
+        }
+
+        public async Task<List<MenuItem>> SearchMenuItemsAsync(string searchTerm)
+        {
+            if (string.IsNullOrWhiteSpace(searchTerm))
+                return await _repository.Table.Include(m => m.Category).ToListAsync();
+
+            return await _repository.Table
+                .Include(m => m.Category)
+                .Where(m => m.Name.Contains(searchTerm))
+                .ToListAsync();
+        }
+
+        public async Task<List<MenuItem>> GetAllMenuItemsAsync()
+        {
+            return await _repository.Table
+                .Include(m => m.Category)
+                .ToListAsync();
+        }
+
+        public async Task<MenuItem?> GetMenuItemByIdAsync(int id)
+        {
+            return await _repository.Table
+                .Include(m => m.Category)
+                .FirstOrDefaultAsync(m => m.Id == id);
+        }
 
         
     }

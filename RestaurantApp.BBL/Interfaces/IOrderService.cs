@@ -1,4 +1,4 @@
-﻿﻿using RestaurantApp.Core.Models;
+﻿using RestaurantApp.Core.Models;
 
 namespace RestaurantApp.BBL.Interfaces
 {
@@ -12,5 +12,9 @@ namespace RestaurantApp.BBL.Interfaces
         Task<Order?> GetOrderByIdAsync(int id);
 
         Task<List<Order>> GetOrdersByPriceIntervalAsync(decimal minPrice, decimal maxPrice);
+        
+        Task<List<Order>> GetAllOrdersAsync();
+        
+        Task<List<Order>> GetOrdersByDateRangeAsync(DateTime startDate, DateTime endDate);
     }
 }
