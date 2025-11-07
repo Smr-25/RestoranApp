@@ -1,10 +1,12 @@
 ﻿namespace RestaurantApp.BBL.Interfaces
 {
+    using RestaurantApp.Core.Models;
+
     public interface IMenuItemService
     {
-        Task AddMenuItemAsync();
-        Task RemoveMenuItemAsync();
+        Task AddMenuItemAsync(MenuItem menuItem);
+        Task RemoveMenuItemAsync(int id);
 
-        Task EditMenuItemAsync();
+        Task EditMenuItemAsync(int id, MenuItem updatedMenuItem);
     }
 }

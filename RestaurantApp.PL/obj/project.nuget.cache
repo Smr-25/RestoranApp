@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "mxocL+7FB54=",
+  "dgSpecHash": "lN3kL7qV3KE=",
   "success": true,
-  "projectFilePath": "C:\\Users\\samiraa\\Desktop\\MiniAppAll\\RestaurantApp\\RestaurantApp.PL\\RestaurantApp.PL.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "/Users/asmrofficialfinder/Documents/CodeAcademyMiniApp/RestaurantApp/RestoranApp/RestaurantApp.PL/RestaurantApp.PL.csproj",
+  "expectedPackageFiles": [
+    "/Users/asmrofficialfinder/.nuget/packages/microsoft.netcore.app.ref/8.0.19/microsoft.netcore.app.ref.8.0.19.nupkg.sha512",
+    "/Users/asmrofficialfinder/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.19/microsoft.aspnetcore.app.ref.8.0.19.nupkg.sha512",
+    "/Users/asmrofficialfinder/.nuget/packages/microsoft.netcore.app.host.osx-arm64/8.0.19/microsoft.netcore.app.host.osx-arm64.8.0.19.nupkg.sha512"
+  ],
   "logs": []
 }
