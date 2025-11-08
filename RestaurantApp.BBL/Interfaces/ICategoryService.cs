@@ -1,5 +1,3 @@
-using RestaurantApp.Core.Models;
-
 namespace RestaurantApp.BBL.Interfaces
 {
     public interface ICategoryService

@@ -1,8 +1,3 @@
-using RestaurantApp.BBL.Interfaces;
-using RestaurantApp.Core.Models;
-using RestaurantApp.DDL.Repostories.Intefaces;
-using Microsoft.EntityFrameworkCore;
-
 namespace RestaurantApp.BBL.Services
 {
     public class CategoryService : ICategoryService

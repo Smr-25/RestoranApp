@@ -1,10 +1,8 @@
-﻿using RestaurantApp.Core.Models;
-
-namespace RestaurantApp.BBL.Interfaces
+﻿namespace RestaurantApp.BBL.Interfaces
 {
     public interface IOrderService
     {
-        Task AddOrderAsync(Order order);
+        Task AddOrderAsync(MenuItem menuItem, int count);
         Task RemoveOrderAsync(int id);
 
         Task<Order?> GetOrderByDateAsync(DateTime date);

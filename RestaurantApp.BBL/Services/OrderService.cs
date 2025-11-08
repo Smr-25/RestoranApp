@@ -1,9 +1,4 @@
-﻿using RestaurantApp.BBL.Interfaces;
-using RestaurantApp.Core.Models;
-using RestaurantApp.DDL.Repostories.Intefaces;
-using Microsoft.EntityFrameworkCore;
-
-namespace RestaurantApp.BBL.Services
+﻿namespace RestaurantApp.BBL.Services
 {
     public class OrderService : IOrderService
     {
@@ -14,12 +9,28 @@ namespace RestaurantApp.BBL.Services
             _repository = repository;
         }
 
-        public async Task AddOrderAsync(Order order)
+        public async Task AddOrderAsync(MenuItem menuItem, int count)
         {
-            if (order == null)
-                throw new ArgumentNullException(nameof(order));
+            if (menuItem == null)
+                throw new ArgumentNullException(nameof(menuItem));
+            if (count <= 0)
+                throw new ArgumentOutOfRangeException(nameof(count), "Count must be greater than zero.");
+
+            var orderItem = new OrderItem()
+            {
+                MenuItemId = menuItem.Id,
+                Count = count
+            };
+
+            var order = new Order
+            {
+                Date = DateTime.UtcNow,
+                TotalAmount = menuItem.Price * count,
+                OrderItems = new List<OrderItem> { orderItem }
+            };
 
             await _repository.AddAsync(order);
+            await _repository.SaveChangesAsync();
         }
 
         public async Task RemoveOrderAsync(int id)
@@ -29,6 +40,7 @@ namespace RestaurantApp.BBL.Services
                 throw new InvalidOperationException($"Order with id {id} not found.");
 
             await _repository.RemoveAsync(entity);
+            await _repository.SaveChangesAsync();
         }
 
         public async Task<Order?> GetOrderByDateAsync(DateTime date)

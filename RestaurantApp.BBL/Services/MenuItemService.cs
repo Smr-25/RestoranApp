@@ -1,9 +1,4 @@
-﻿using RestaurantApp.BBL.Interfaces;
-using RestaurantApp.Core.Models;
-using RestaurantApp.DDL.Repostories.Intefaces;
-using Microsoft.EntityFrameworkCore;
-
-namespace RestaurantApp.BBL.Services
+﻿namespace RestaurantApp.BBL.Services
 {
     public class MenuItemService : IMenuItemService
     {
@@ -14,12 +9,17 @@ namespace RestaurantApp.BBL.Services
             _repository = repository;
         }
 
-        public async Task AddMenuItemAsync(MenuItem menuItem)
+        public async Task AddMenuItemAsync(string name,decimal price,int categoryId)
         {
-            if (menuItem == null)
-                throw new ArgumentNullException(nameof(menuItem));
+            var menuItem = new MenuItem
+            {
+                Name = name,
+                Price = price,
+                CategoryId = categoryId
+            };
 
             await _repository.AddAsync(menuItem);
+            await _repository.SaveChangesAsync();
         }
 
         public async Task RemoveMenuItemAsync(int id)
@@ -29,24 +29,23 @@ namespace RestaurantApp.BBL.Services
                 throw new InvalidOperationException($"MenuItem with id {id} not found.");
 
             await _repository.RemoveAsync(entity);
+            await _repository.SaveChangesAsync();
         }
 
 
-        public async Task EditMenuItemAsync(int id, MenuItem updatedMenuItem)
+        public async Task EditMenuItemAsync(int id, string name,decimal price)
         {
-            if (updatedMenuItem == null)
-                throw new ArgumentNullException(nameof(updatedMenuItem));
-
-            var existing = await _repository.GetByIdAsync(id);
-            if (existing == null)
+            var entity = await _repository.GetByIdAsync(id);
+            if (entity == null)
                 throw new InvalidOperationException($"MenuItem with id {id} not found.");
-
-          
-            existing.Name = updatedMenuItem.Name;
-            existing.Price = updatedMenuItem.Price;
-            existing.CategoryId = updatedMenuItem.CategoryId;
-
-            await _repository.UpdateAsync(existing);
+            if(_repository.Table.Any(m => m.Name == name && m.Id == entity.Id))
+            {
+                throw new InvalidOperationException($"MenuItem with name {name} already exists.");
+            }
+            entity.Name = name;
+            entity.Price = price;
+            await _repository.UpdateAsync(entity);
+            await _repository.SaveChangesAsync();
         }
 
         public async Task<List<MenuItem>> GetMenuItemsByCategoryAsync(int categoryId)
@@ -65,14 +64,14 @@ namespace RestaurantApp.BBL.Services
                 .ToListAsync();
         }
 
-        public async Task<List<MenuItem>> SearchMenuItemsAsync(string searchTerm)
+        public async Task<List<MenuItem>> SearchMenuItemsAsync(string search)
         {
-            if (string.IsNullOrWhiteSpace(searchTerm))
+            if (string.IsNullOrWhiteSpace(search))
                 return await _repository.Table.Include(m => m.Category).ToListAsync();
 
             return await _repository.Table
                 .Include(m => m.Category)
-                .Where(m => m.Name.Contains(searchTerm))
+                .Where(m => m.Name.Contains(search))
                 .ToListAsync();
         }
 
