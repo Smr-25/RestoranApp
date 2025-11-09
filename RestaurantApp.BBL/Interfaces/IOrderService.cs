@@ -2,10 +2,10 @@
 {
     public interface IOrderService
     {
-        Task AddOrderAsync(MenuItem menuItem, int count);
+        Task AddOrderAsync(Dictionary<int, int> menuItemsWithCounts);
         Task RemoveOrderAsync(int id);
 
-        Task<Order?> GetOrderByDateAsync(DateTime date);
+        Task<List<Order>> GetOrdersByDateAsync(DateTime date);
 
         Task<Order?> GetOrderByIdAsync(int id);
 

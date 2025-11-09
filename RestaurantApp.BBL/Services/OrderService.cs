@@ -2,58 +2,74 @@
 {
     public class OrderService : IOrderService
     {
-        private readonly IRepository<Order> _repository;
+        private readonly IRepository<Order> _orderRepository;
+        private readonly IRepository<MenuItem> _menuItemRepository;
 
-        public OrderService(IRepository<Order> repository)
+        public OrderService(IRepository<Order> orderRepository, IRepository<MenuItem> menuItemRepository)
         {
-            _repository = repository;
+            _orderRepository = orderRepository;
+            _menuItemRepository = menuItemRepository;
         }
 
-        public async Task AddOrderAsync(MenuItem menuItem, int count)
+        public async Task AddOrderAsync(Dictionary<int, int> menuItemsWithCounts)
         {
-            if (menuItem == null)
-                throw new ArgumentNullException(nameof(menuItem));
-            if (count <= 0)
-                throw new ArgumentOutOfRangeException(nameof(count), "Count must be greater than zero.");
+            if (menuItemsWithCounts == null || !menuItemsWithCounts.Any())
+                throw new ArgumentException("Order must contain at least one item.");
 
-            var orderItem = new OrderItem()
+            var orderItems = new List<OrderItem>();
+            decimal totalAmount = 0;
+
+            foreach (var item in menuItemsWithCounts)
             {
-                MenuItemId = menuItem.Id,
-                Count = count
-            };
+                var menuItem = await _menuItemRepository.GetByIdAsync(item.Key);
+                if (menuItem == null)
+                    throw new InvalidOperationException($"MenuItem with id {item.Key} not found.");
+                
+                if (item.Value <= 0)
+                    throw new ArgumentOutOfRangeException(nameof(item.Value), "Count must be greater than zero.");
+
+                orderItems.Add(new OrderItem
+                {
+                    MenuItemId = menuItem.Id,
+                    Count = item.Value
+                });
+
+                totalAmount += menuItem.Price * item.Value;
+            }
 
             var order = new Order
             {
                 Date = DateTime.UtcNow,
-                TotalAmount = menuItem.Price * count,
-                OrderItems = new List<OrderItem> { orderItem }
+                TotalAmount = totalAmount,
+                OrderItems = orderItems
             };
 
-            await _repository.AddAsync(order);
-            await _repository.SaveChangesAsync();
+            await _orderRepository.AddAsync(order);
+            await _orderRepository.SaveChangesAsync();
         }
 
         public async Task RemoveOrderAsync(int id)
         {
-            var entity = await _repository.GetByIdAsync(id);
+            var entity = await _orderRepository.GetByIdAsync(id);
             if (entity == null)
                 throw new InvalidOperationException($"Order with id {id} not found.");
 
-            await _repository.RemoveAsync(entity);
-            await _repository.SaveChangesAsync();
+            await _orderRepository.RemoveAsync(entity);
+            await _orderRepository.SaveChangesAsync();
         }
 
-        public async Task<Order?> GetOrderByDateAsync(DateTime date)
+        public async Task<List<Order>> GetOrdersByDateAsync(DateTime date)
         {
-            return await _repository.Table
+            return await _orderRepository.Table
                 .Include(o => o.OrderItems)
                     .ThenInclude(oi => oi.MenuItem)
-                .FirstOrDefaultAsync(o => o.Date.Date == date.Date);
+                .Where(o => o.Date.Date == date.Date)
+                .ToListAsync();
         }
 
         public async Task<Order?> GetOrderByIdAsync(int id)
         {
-            return await _repository.Table
+            return await _orderRepository.Table
                 .Include(o => o.OrderItems)
                     .ThenInclude(oi => oi.MenuItem)
                 .FirstOrDefaultAsync(o => o.Id == id);
@@ -61,7 +77,7 @@
 
         public async Task<List<Order>> GetOrdersByPriceIntervalAsync(decimal minPrice, decimal maxPrice)
         {
-            return await _repository.Table
+            return await _orderRepository.Table
                 .Include(o => o.OrderItems)
                     .ThenInclude(oi => oi.MenuItem)
                 .Where(o => o.TotalAmount >= minPrice && o.TotalAmount <= maxPrice)
@@ -70,7 +86,7 @@
 
         public async Task<List<Order>> GetAllOrdersAsync()
         {
-            return await _repository.Table
+            return await _orderRepository.Table
                 .Include(o => o.OrderItems)
                     .ThenInclude(oi => oi.MenuItem)
                 .ToListAsync();
@@ -78,7 +94,7 @@
 
         public async Task<List<Order>> GetOrdersByDateRangeAsync(DateTime startDate, DateTime endDate)
         {
-            return await _repository.Table
+            return await _orderRepository.Table
                 .Include(o => o.OrderItems)
                     .ThenInclude(oi => oi.MenuItem)
                 .Where(o => o.Date.Date >= startDate.Date && o.Date.Date <= endDate.Date)
