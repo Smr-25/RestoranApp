@@ -1,3 +1,5 @@
+using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace RestaurantApp.DDL.Repostories.Concretes
 {
@@ -21,7 +23,7 @@ namespace RestaurantApp.DDL.Repostories.Concretes
 
         public async Task UpdateAsync(T entity)
         {
-             Table.Update(entity);
+            Table.Update(entity);
             await SaveChangesAsync();
         }
 
@@ -40,7 +42,45 @@ namespace RestaurantApp.DDL.Repostories.Concretes
         {
             return await Table.FindAsync(id);
         }
+        
+        public async Task<bool> IsExistAsync(Expression<Func<T, bool>> predicate )
+        {
+            return await Table.AnyAsync(predicate);
+        }
+        
+        public async Task<IQueryable<T>> GetAllAsync()
+        {
+            return Table.AsQueryable();
+        }
+        public async Task<IQueryable<T>> GetAllAsync(Expression<Func<T, bool>> predicate = null, Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null)
+        {
+            IQueryable<T> query = Table;
 
+            if (include != null)
+            {
+                query = include(query);
+            }
+
+            if (predicate != null)
+            {
+                query = query.Where(predicate);
+            }
+
+            return query;
+        }
+        
+        public async Task<T?> GetByIdAsync(int id,Func<IQueryable<T> , IIncludableQueryable<T, object>>? include = null)
+        {
+            IQueryable<T> query = Table;
+
+            if (include != null)
+            {
+                query = include(query);
+            }
+            
+            return await query.FirstOrDefaultAsync(e => e.Id == id);
+        }
+        
 
     }
 }

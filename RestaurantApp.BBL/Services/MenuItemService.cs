@@ -1,4 +1,6 @@
-﻿namespace RestaurantApp.BBL.Services
+﻿using RestaurantApp.BBL.Exceptions;
+
+namespace RestaurantApp.BBL.Services
 {
     public class MenuItemService : IMenuItemService
     {
@@ -26,7 +28,7 @@
         {
             var entity = await _repository.GetByIdAsync(id);
             if (entity == null)
-                throw new InvalidOperationException($"MenuItem with id {id} not found.");
+                throw new MenuItemNotFoundException($"MenuItem with id {id} not found.");
 
             await _repository.RemoveAsync(entity);
             await _repository.SaveChangesAsync();
@@ -37,10 +39,10 @@
         {
             var entity = await _repository.GetByIdAsync(id);
             if (entity == null)
-                throw new InvalidOperationException($"MenuItem with id {id} not found.");
-            if(_repository.Table.Any(m => m.Name == name && m.Id == entity.Id))
+                throw new MenuItemNotFoundException($"MenuItem with id {id} not found.");
+            if(await _repository.IsExistAsync(m=>m.Name.ToLower()==name.ToLower() && m.Id!=id))
             {
-                throw new InvalidOperationException($"MenuItem with name {name} already exists.");
+                throw new MenuItemAlreadyExistException($"MenuItem with name {name} already exists.");
             }
             entity.Name = name;
             entity.Price = price;
@@ -50,43 +52,39 @@
 
         public async Task<List<MenuItem>> GetMenuItemsByCategoryAsync(int categoryId)
         {
-            return await _repository.Table
-                .Include(m => m.Category)
-                .Where(m => m.CategoryId == categoryId)
-                .ToListAsync();
+            var query = await _repository.GetAllAsync(
+                m => m.CategoryId == categoryId,
+                q => q.Include(m => m.Category));
+
+            return await query.ToListAsync();
+               
         }
 
         public async Task<List<MenuItem>> GetMenuItemsByPriceRangeAsync(decimal minPrice, decimal maxPrice)
         {
-            return await _repository.Table
-                .Include(m => m.Category)
-                .Where(m => m.Price >= minPrice && m.Price <= maxPrice)
-                .ToListAsync();
+            var query = await _repository.GetAllAsync(m => m.Price >= minPrice && m.Price <= maxPrice,
+                q => q.Include(m => m.Category));
+            return await query.ToListAsync();
         }
+        
 
         public async Task<List<MenuItem>> SearchMenuItemsAsync(string search)
         {
-            if (string.IsNullOrWhiteSpace(search))
-                return await _repository.Table.Include(m => m.Category).ToListAsync();
-
-            return await _repository.Table
-                .Include(m => m.Category)
-                .Where(m => m.Name.Contains(search))
-                .ToListAsync();
+           var query = await _repository.GetAllAsync(
+                m => m.Name.ToLower().Contains(search.ToLower()),
+                q => q.Include(m => m.Category));
+           return await query.ToListAsync();
+           
         }
 
         public async Task<List<MenuItem>> GetAllMenuItemsAsync()
         {
-            return await _repository.Table
-                .Include(m => m.Category)
-                .ToListAsync();
+            return await _repository.GetAllAsync().Result.ToListAsync();
         }
 
         public async Task<MenuItem?> GetMenuItemByIdAsync(int id)
         {
-            return await _repository.Table
-                .Include(m => m.Category)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            return await _repository.GetByIdAsync(id,q => q.Include(m => m.Category));
         }
 
         

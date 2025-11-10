@@ -12,6 +12,8 @@ namespace RestaurantApp.Core.Models
         public int CategoryId { get; set; }
 
         public Category Category { get; set; }
+        
+        public OrderItem OrderItem { get; set; }
 
     }
 }

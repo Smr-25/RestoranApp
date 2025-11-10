@@ -7,7 +7,7 @@ namespace RestaurantApp.Core.Models
     {
         public string Name { get; set; }
 
-        public List<Category> Categories { get; set; }
+        public List<MenuItem> MenuItems { get; set; }
 
        
     }

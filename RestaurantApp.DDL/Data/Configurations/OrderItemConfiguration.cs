@@ -17,12 +17,13 @@
                 .WithMany(o => o.OrderItems)
                 .HasForeignKey(oi => oi.OrderId)
                 .OnDelete(DeleteBehavior.Cascade);
-
-            builder.HasOne(oi => oi.MenuItem)
-                .WithMany()
-                .HasForeignKey("MenuItemId")
+            
+            builder.HasIndex(oi => oi.MenuItemId).IsUnique();
+            
+            builder.HasOne(oi=>oi.MenuItem)
+                .WithOne(mi=>mi.OrderItem)
+                .HasForeignKey<OrderItem>(oi=>oi.MenuItemId)
                 .OnDelete(DeleteBehavior.Restrict);
-
             
             builder.HasData(
                

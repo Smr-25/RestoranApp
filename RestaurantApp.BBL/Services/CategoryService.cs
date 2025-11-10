@@ -18,6 +18,41 @@ namespace RestaurantApp.BBL.Services
         {
             return await _repository.GetByIdAsync(id);
         }
+        
+        public async Task AddCategoryAsync(string name)
+        {
+            var category = new Category
+            {
+                Name = name
+            };
+
+            await _repository.AddAsync(category);
+            await _repository.SaveChangesAsync();
+        }
+        
+        public async Task RemoveCategoryAsync(int id)
+        {
+            var entity = await _repository.GetByIdAsync(id);
+            if (entity == null)
+                throw new InvalidOperationException($"Category with id {id} not found.");
+
+            await _repository.RemoveAsync(entity);
+            await _repository.SaveChangesAsync();
+        }
+        
+        public async Task EditCategoryAsync(int id, string name)
+        {
+            var entity = await _repository.GetByIdAsync(id);
+            if (entity == null)
+                throw new InvalidOperationException($"Category with id {id} not found.");
+            if(await _repository.IsExistAsync(c=>c.Name.ToLower()==name.ToLower() && c.Id!=id))
+            {
+                throw new InvalidOperationException($"Category with name {name} already exists.");
+            }
+            entity.Name = name;
+            await _repository.UpdateAsync(entity);
+            await _repository.SaveChangesAsync();
+        }
     }
 }
 

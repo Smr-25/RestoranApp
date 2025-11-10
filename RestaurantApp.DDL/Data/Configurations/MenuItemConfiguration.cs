@@ -22,7 +22,7 @@
                 .IsRequired();
 
             builder.HasOne(m => m.Category)
-                .WithMany()
+                .WithMany(c=>c.MenuItems)
                 .HasForeignKey(m => m.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
 

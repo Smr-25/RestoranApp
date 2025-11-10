@@ -2,8 +2,9 @@
 {
     public class CategoryConfiguration : IEntityTypeConfiguration<Category>
     {
-        void IEntityTypeConfiguration<Category>.Configure(EntityTypeBuilder<Category> builder)
+        public void Configure(EntityTypeBuilder<Category> builder)
         {
+        
             builder.ToTable("Category");
             builder.HasKey(c => c.Id);
 
@@ -11,8 +12,9 @@
                 .IsRequired()
                 .HasMaxLength(100);
 
-            builder.HasMany(c => c.Categories)
-                .WithOne()
+            builder.HasMany(c => c.MenuItems)
+                .WithOne(m => m.Category)
+                .HasForeignKey(m => m.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             
