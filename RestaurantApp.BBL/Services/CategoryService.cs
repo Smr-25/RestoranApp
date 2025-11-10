@@ -1,3 +1,5 @@
+using RestaurantApp.BBL.Exceptions;
+
 namespace RestaurantApp.BBL.Services
 {
     public class CategoryService : ICategoryService
@@ -11,7 +13,8 @@ namespace RestaurantApp.BBL.Services
 
         public async Task<List<Category>> GetAllCategoriesAsync()
         {
-            return await _repository.Table.ToListAsync();
+            var query = await _repository.GetAllAsync();
+            return await query.ToListAsync();
         }
 
         public async Task<Category?> GetCategoryByIdAsync(int id)
@@ -34,7 +37,7 @@ namespace RestaurantApp.BBL.Services
         {
             var entity = await _repository.GetByIdAsync(id);
             if (entity == null)
-                throw new InvalidOperationException($"Category with id {id} not found.");
+                throw new CategoryNotFoundException($"Category with id {id} not found.");
 
             await _repository.RemoveAsync(entity);
             await _repository.SaveChangesAsync();
@@ -44,10 +47,10 @@ namespace RestaurantApp.BBL.Services
         {
             var entity = await _repository.GetByIdAsync(id);
             if (entity == null)
-                throw new InvalidOperationException($"Category with id {id} not found.");
+                throw new CategoryNotFoundException($"Category with id {id} not found.");
             if(await _repository.IsExistAsync(c=>c.Name.ToLower()==name.ToLower() && c.Id!=id))
             {
-                throw new InvalidOperationException($"Category with name {name} already exists.");
+                throw new CategoryAlreadyExistException($"Category with name {name} already exists.");
             }
             entity.Name = name;
             await _repository.UpdateAsync(entity);
