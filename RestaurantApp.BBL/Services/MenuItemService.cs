@@ -1,6 +1,4 @@
-﻿using RestaurantApp.BBL.Exceptions;
-
-namespace RestaurantApp.BBL.Services
+﻿namespace RestaurantApp.BBL.Services
 {
     public class MenuItemService : IMenuItemService
     {
@@ -79,7 +77,8 @@ namespace RestaurantApp.BBL.Services
 
         public async Task<List<MenuItem>> GetAllMenuItemsAsync()
         {
-            return await _repository.GetAllAsync().Result.ToListAsync();
+            var query = await _repository.GetAllAsync();
+            return await query.Include(m => m.Category).ToListAsync();
         }
 
         public async Task<MenuItem?> GetMenuItemByIdAsync(int id)

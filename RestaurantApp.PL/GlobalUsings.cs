@@ -1,0 +1,10 @@
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.Extensions.DependencyInjection;
+global using RestaurantApp.BBL.DTOs;
+global using RestaurantApp.BBL.Interfaces;
+global using RestaurantApp.BBL.Services;
+global using RestaurantApp.BBL.Executors;
+global using RestaurantApp.DDL.Data;
+global using RestaurantApp.DDL.Repostories.Intefaces;
+global using RestaurantApp.DDL.Repostories.Concretes;
+global using AutoMapper;

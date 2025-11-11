@@ -1,4 +1,6 @@
-﻿namespace RestaurantApp.BBL.Services
+﻿using RestaurantApp.BBL.Exceptions;
+
+namespace RestaurantApp.BBL.Services
 {
     public class OrderService : IOrderService
     {
@@ -14,7 +16,7 @@
         public async Task AddOrderAsync(Dictionary<int, int> menuItemsWithCounts)
         {
             if (menuItemsWithCounts == null || !menuItemsWithCounts.Any())
-                throw new ArgumentException("Order must contain at least one item.");
+                throw new OrderNotFoundException("Order must contain at least one item.");
 
             var orderItems = new List<OrderItem>();
             decimal totalAmount = 0;
@@ -23,10 +25,10 @@
             {
                 var menuItem = await _menuItemRepository.GetByIdAsync(item.Key);
                 if (menuItem == null)
-                    throw new InvalidOperationException($"MenuItem with id {item.Key} not found.");
-                
+                    throw new MenuItemNotFoundException($"MenuItem with id {item.Key} not found.");
+
                 if (item.Value <= 0)
-                    throw new ArgumentOutOfRangeException(nameof(item.Value), "Count must be greater than zero.");
+                    throw new CountZeroException("Count must be greater than zero.");
 
                 orderItems.Add(new OrderItem
                 {
@@ -50,55 +52,49 @@
 
         public async Task RemoveOrderAsync(int id)
         {
-            var entity = await _orderRepository.GetByIdAsync(id);
-            if (entity == null)
-                throw new InvalidOperationException($"Order with id {id} not found.");
+            var order = await _orderRepository.GetByIdAsync(id);
+            if (order == null)
+                throw new OrderNotFoundException($"Order with id {id} not found.");
 
-            await _orderRepository.RemoveAsync(entity);
+            await _orderRepository.RemoveAsync(order);
             await _orderRepository.SaveChangesAsync();
         }
 
         public async Task<List<Order>> GetOrdersByDateAsync(DateTime date)
         {
-            return await _orderRepository.Table
-                .Include(o => o.OrderItems)
-                    .ThenInclude(oi => oi.MenuItem)
-                .Where(o => o.Date.Date == date.Date)
-                .ToListAsync();
+            var orders = await _orderRepository.GetAllAsync(o=>o.Date == date,
+                q=>q.Include(o=>o.OrderItems)
+                    .ThenInclude(oi=>oi.MenuItem));
+            return await orders.ToListAsync();
         }
 
         public async Task<Order?> GetOrderByIdAsync(int id)
         {
-            return await _orderRepository.Table
-                .Include(o => o.OrderItems)
-                    .ThenInclude(oi => oi.MenuItem)
-                .FirstOrDefaultAsync(o => o.Id == id);
+            return await _orderRepository.GetByIdAsync(id,
+                q=>q.Include(o=>o.OrderItems)
+                    .ThenInclude(oi=>oi.MenuItem));
         }
 
         public async Task<List<Order>> GetOrdersByPriceIntervalAsync(decimal minPrice, decimal maxPrice)
         {
-            return await _orderRepository.Table
-                .Include(o => o.OrderItems)
-                    .ThenInclude(oi => oi.MenuItem)
-                .Where(o => o.TotalAmount >= minPrice && o.TotalAmount <= maxPrice)
-                .ToListAsync();
+            var orders = await _orderRepository.GetAllAsync(o=>o.TotalAmount >= minPrice && o.TotalAmount <= maxPrice,
+                q=>q.Include(o=>o.OrderItems)
+                    .ThenInclude(oi=>oi.MenuItem));
+            return await orders.ToListAsync();
         }
 
         public async Task<List<Order>> GetAllOrdersAsync()
         {
-            return await _orderRepository.Table
-                .Include(o => o.OrderItems)
-                    .ThenInclude(oi => oi.MenuItem)
-                .ToListAsync();
+            var orders = await _orderRepository.GetAllAsync();
+            return await orders.ToListAsync();
         }
 
         public async Task<List<Order>> GetOrdersByDateRangeAsync(DateTime startDate, DateTime endDate)
         {
-            return await _orderRepository.Table
-                .Include(o => o.OrderItems)
-                    .ThenInclude(oi => oi.MenuItem)
-                .Where(o => o.Date.Date >= startDate.Date && o.Date.Date <= endDate.Date)
-                .ToListAsync();
+            var orders = await _orderRepository.GetAllAsync(o=>o.Date >= startDate && o.Date <= endDate,
+                q=>q.Include(o=>o.OrderItems)
+                    .ThenInclude(oi=>oi.MenuItem));
+            return await orders.ToListAsync();
         }
     }
 }

@@ -1,7 +1,3 @@
-using AutoMapper;
-using RestaurantApp.BBL.DTOs;
-using RestaurantApp.BBL.Interfaces;
-
 namespace RestaurantApp.PL.Executors
 {
     public class MenuItemExecutor
@@ -17,14 +13,12 @@ namespace RestaurantApp.PL.Executors
             _mapper = mapper;
         }
 
-        public async Task AddMenuItemAsync()
+        public async Task ExecuteAddMenuItemAsync()
         {
-            Console.WriteLine("\n=== Yeni Menu Item Əlavə Et ===");
-            
-            Console.Write("Ad daxil edin: ");
+            Console.Write("Add New Menu Item\n");
             string name = Console.ReadLine() ?? "";
 
-            Console.Write("Qiymət daxil edin: ");
+            Console.Write("");
             if (!decimal.TryParse(Console.ReadLine(), out decimal price))
             {
                 Console.WriteLine("Yanlış qiymət formatı!");
