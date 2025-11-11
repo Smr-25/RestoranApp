@@ -15,28 +15,43 @@ namespace RestaurantApp.PL.Executors
 
         public async Task ExecuteAddMenuItemAsync()
         {
-            Console.Write("Add New Menu Item\n");
-            string name = Console.ReadLine() ?? "";
-
-            Console.Write("");
-            if (!decimal.TryParse(Console.ReadLine(), out decimal price))
+            Console.WriteLine("\n=== Yeni Menu Item Əlavə Et ===");
+            Name:
+            Console.Write("Ad daxil edin: ");
+            string name = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(name))
             {
-                Console.WriteLine("Yanlış qiymət formatı!");
-                return;
+                Console.WriteLine("Ad boş ola bilməz! Yenidən cəhd edin.");
+                goto Name;
+            }
+
+            Price:
+            Console.Write("Qiymət daxil edin: ");
+            string priceInput = Console.ReadLine();
+            if (!decimal.TryParse(priceInput, out decimal price))
+            {
+                Console.WriteLine("Yanlış qiymət formatı! Yenidən cəhd edin.");
+                goto Price;
             }
 
             var categories = await _categoryService.GetAllCategoriesAsync();
+            var categoryDtos = _mapper.Map<List<CategoryDto>>(categories);
+            
             Console.WriteLine("\nMövcud Kateqoriyalar:");
-            foreach (var cat in categories)
+            Console.WriteLine(CategoryDto.GetHeader());
+            Console.WriteLine(CategoryDto.GetSeparator());
+            foreach (var cat in categoryDtos)
             {
-                Console.WriteLine($"{cat.Id}. {cat.Name}");
+                Console.WriteLine(cat);
             }
 
-            Console.Write("Kateqoriya ID daxil edin: ");
-            if (!int.TryParse(Console.ReadLine(), out int categoryId))
+            CategoryId:
+            Console.Write("\nKateqoriya ID daxil edin: ");
+            string idInput = Console.ReadLine();
+            if (!int.TryParse(idInput, out int categoryId))
             {
-                Console.WriteLine("Yanlış ID formatı!");
-                return;
+                Console.WriteLine("Yanlış ID formatı! Yenidən cəhd edin.");
+                goto CategoryId;
             }
 
             try
@@ -50,25 +65,35 @@ namespace RestaurantApp.PL.Executors
             }
         }
 
-        public async Task EditMenuItemAsync()
+        public async Task ExecuteEditMenuItemAsync()
         {
             Console.WriteLine("\n=== Menu Item-i Düzəliş Et ===");
-            
+
+            MenuItemId:
             Console.Write("Düzəliş ediləcək item nömrəsi: ");
-            if (!int.TryParse(Console.ReadLine(), out int id))
+            string menuItemIdInput = Console.ReadLine();
+            if (!int.TryParse(menuItemIdInput, out int id))
             {
-                Console.WriteLine("Yanlış ID formatı!");
-                return;
+                Console.WriteLine("Yanlış ID formatı! Yenidən cəhd edin.");
+                goto MenuItemId;
             }
 
+            Name:
             Console.Write("Yeni ad: ");
-            string name = Console.ReadLine() ?? "";
-
-            Console.Write("Yeni qiymət: ");
-            if (!decimal.TryParse(Console.ReadLine(), out decimal price))
+            string name = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(name))
             {
-                Console.WriteLine("Yanlış qiymət formatı!");
-                return;
+                Console.WriteLine("Ad boş ola bilməz! Yenidən cəhd edin.");
+                goto Name;
+            }
+
+            Price:
+            Console.Write("Yeni qiymət: ");
+            string priceInput = Console.ReadLine();
+            if (!decimal.TryParse(priceInput, out decimal price))
+            {
+                Console.WriteLine("Yanlış qiymət formatı! Yenidən cəhd edin.");
+                goto Price;
             }
 
             try
@@ -82,15 +107,17 @@ namespace RestaurantApp.PL.Executors
             }
         }
 
-        public async Task RemoveMenuItemAsync()
+        public async Task ExecuteRemoveMenuItemAsync()
         {
             Console.WriteLine("\n=== Menu Item-i Sil ===");
-            
+
+            MenuItemId:
             Console.Write("Silinəcək item nömrəsi: ");
-            if (!int.TryParse(Console.ReadLine(), out int id))
+            string menuItemIdInput = Console.ReadLine();
+            if (!int.TryParse(menuItemIdInput, out int id))
             {
-                Console.WriteLine("Yanlış ID formatı!");
-                return;
+                Console.WriteLine("Yanlış ID formatı! Yenidən cəhd edin.");
+                goto MenuItemId;
             }
 
             try
@@ -104,10 +131,10 @@ namespace RestaurantApp.PL.Executors
             }
         }
 
-        public async Task ShowAllMenuItemsAsync()
+        public async Task ExecuteShowAllMenuItemsAsync()
         {
             Console.WriteLine("\n=== Bütün Menu Item-lar ===");
-            
+
             try
             {
                 var items = await _menuItemService.GetAllMenuItemsAsync();
@@ -119,11 +146,11 @@ namespace RestaurantApp.PL.Executors
                     return;
                 }
 
-                Console.WriteLine($"{"Nömrə",-10}{"Ad",-30}{"Kateqoriya",-20}{"Qiymət",-10}");
-                Console.WriteLine(new string('-', 70));
+                Console.WriteLine(MenuItemDto.GetHeader());
+                Console.WriteLine(MenuItemDto.GetSeparator());
                 foreach (var item in itemDtos)
                 {
-                    Console.WriteLine($"{item.Id,-10}{item.Name,-30}{item.CategoryName,-20}{item.Price,-10:C}");
+                    Console.WriteLine(item);
                 }
             }
             catch (Exception ex)
@@ -132,26 +159,30 @@ namespace RestaurantApp.PL.Executors
             }
         }
 
-        public async Task ShowMenuItemsByCategoryAsync()
+        public async Task ExecuteShowMenuItemsByCategoryAsync()
         {
             Console.WriteLine("\n=== Kateqoriyaya Görə Menu Item-lar ===");
-            
+
             try
             {
                 var categories = await _categoryService.GetAllCategoriesAsync();
                 var categoryDtos = _mapper.Map<List<CategoryDto>>(categories);
 
                 Console.WriteLine("\nMövcud Kateqoriyalar:");
+                Console.WriteLine(CategoryDto.GetHeader());
+                Console.WriteLine(CategoryDto.GetSeparator());
                 foreach (var cat in categoryDtos)
                 {
-                    Console.WriteLine($"{cat.Id}. {cat.Name}");
+                    Console.WriteLine(cat);
                 }
 
+                CategoryId:
                 Console.Write("\nKateqoriya nömrəsini seçin: ");
-                if (!int.TryParse(Console.ReadLine(), out int categoryId))
+                string categoryIdInput = Console.ReadLine();
+                if (!int.TryParse(categoryIdInput, out int categoryId))
                 {
-                    Console.WriteLine("Yanlış ID formatı!");
-                    return;
+                    Console.WriteLine("Yanlış ID formatı! Yenidən cəhd edin.");
+                    goto CategoryId;
                 }
 
                 var items = await _menuItemService.GetMenuItemsByCategoryAsync(categoryId);
@@ -163,11 +194,11 @@ namespace RestaurantApp.PL.Executors
                     return;
                 }
 
-                Console.WriteLine($"\n{"Nömrə",-10}{"Ad",-30}{"Kateqoriya",-20}{"Qiymət",-10}");
-                Console.WriteLine(new string('-', 70));
+                Console.WriteLine(MenuItemDto.GetHeader());
+                Console.WriteLine(MenuItemDto.GetSeparator());
                 foreach (var item in itemDtos)
                 {
-                    Console.WriteLine($"{item.Id,-10}{item.Name,-30}{item.CategoryName,-20}{item.Price,-10:C}");
+                    Console.WriteLine(item);
                 }
             }
             catch (Exception ex)
@@ -176,22 +207,26 @@ namespace RestaurantApp.PL.Executors
             }
         }
 
-        public async Task ShowMenuItemsByPriceRangeAsync()
+        public async Task ExecuteShowMenuItemsByPriceRangeAsync()
         {
             Console.WriteLine("\n=== Qiymət Aralığına Görə Menu Item-lar ===");
-            
+
+            MinPrice:
             Console.Write("Minimum qiymət: ");
-            if (!decimal.TryParse(Console.ReadLine(), out decimal minPrice))
+            string minPriceInput = Console.ReadLine();
+            if (!decimal.TryParse(minPriceInput, out decimal minPrice))
             {
-                Console.WriteLine("Yanlış qiymət formatı!");
-                return;
+                Console.WriteLine("Yanlış qiymət formatı! Yenidən cəhd edin.");
+                goto MinPrice;
             }
 
+            MaxPrice:
             Console.Write("Maksimum qiymət: ");
-            if (!decimal.TryParse(Console.ReadLine(), out decimal maxPrice))
+            string maxPriceInput = Console.ReadLine();
+            if (!decimal.TryParse(maxPriceInput, out decimal maxPrice))
             {
-                Console.WriteLine("Yanlış qiymət formatı!");
-                return;
+                Console.WriteLine("Yanlış qiymət formatı! Yenidən cəhd edin.");
+                goto MaxPrice;
             }
 
             try
@@ -205,11 +240,11 @@ namespace RestaurantApp.PL.Executors
                     return;
                 }
 
-                Console.WriteLine($"\n{"Nömrə",-10}{"Ad",-30}{"Kateqoriya",-20}{"Qiymət",-10}");
-                Console.WriteLine(new string('-', 70));
+                Console.WriteLine(MenuItemDto.GetHeader());
+                Console.WriteLine(MenuItemDto.GetSeparator());
                 foreach (var item in itemDtos)
                 {
-                    Console.WriteLine($"{item.Id,-10}{item.Name,-30}{item.CategoryName,-20}{item.Price,-10:C}");
+                    Console.WriteLine(item);
                 }
             }
             catch (Exception ex)
@@ -218,12 +253,18 @@ namespace RestaurantApp.PL.Executors
             }
         }
 
-        public async Task SearchMenuItemsAsync()
+        public async Task ExecuteSearchMenuItemsAsync()
         {
             Console.WriteLine("\n=== Menu Item-lar Arasında Axtar ===");
-            
+
+            SearchTerm:
             Console.Write("Axtarış mətni daxil edin: ");
-            string searchTerm = Console.ReadLine() ?? "";
+            string searchTerm = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(searchTerm))
+            {
+                Console.WriteLine("Axtarış mətni boş ola bilməz! Yenidən cəhd edin.");
+                goto SearchTerm;
+            }
 
             try
             {
@@ -236,17 +277,35 @@ namespace RestaurantApp.PL.Executors
                     return;
                 }
 
-                Console.WriteLine($"\n{"Nömrə",-10}{"Ad",-30}{"Kateqoriya",-20}{"Qiymət",-10}");
-                Console.WriteLine(new string('-', 70));
+                Console.WriteLine(MenuItemDto.GetHeader());
+                Console.WriteLine(MenuItemDto.GetSeparator());
                 foreach (var item in itemDtos)
                 {
-                    Console.WriteLine($"{item.Id,-10}{item.Name,-30}{item.CategoryName,-20}{item.Price,-10:C}");
+                    Console.WriteLine(item);
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Xəta: {ex.Message}");
             }
+        }
+
+
+        public async Task ShowMenuOperationsMenuAsync()
+        {
+            Console.WriteLine("\n" + new string('=', 50));
+            Console.WriteLine("   MENU ƏMƏLİYYATLARI");
+            Console.WriteLine(new string('=', 50));
+            Console.WriteLine("1. Yeni item əlavə et");
+            Console.WriteLine("2. Item üzərində düzəliş et");
+            Console.WriteLine("3. Item sil");
+            Console.WriteLine("4. Bütün item-ları göstər");
+            Console.WriteLine("5. Kateqoriyasına görə menu item-ları göstər");
+            Console.WriteLine("6. Qiymət aralığına görə menu item-lar göstər");
+            Console.WriteLine("7. Menu item-lar arasında ada görə axtarış et");
+            Console.WriteLine("0. Əvvəlki menyuya qayıt");
+            Console.WriteLine(new string('=', 50));
+            Console.Write("Seçiminiz: ");
         }
     }
 }

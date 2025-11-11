@@ -4,17 +4,22 @@ namespace RestaurantApp.BBL.DTOs
     {
         public int Id { get; set; }
         public string Name { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Id,-10}{Name,-30}";
+        }
+
+        public static string GetHeader()
+        {
+            return $"{"Nömrə",-10}{"Ad",-30}";
+        }
+
+        public static string GetSeparator()
+        {
+            return new string('-', 40);
+        }
     }
 }
-namespace RestaurantApp.BBL.DTOs
-{
-    public class MenuItemDto
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public decimal Price { get; set; }
-        public int CategoryId { get; set; }
-        public string CategoryName { get; set; }
-    }
-}
+
 

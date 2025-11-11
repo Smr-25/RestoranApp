@@ -26,7 +26,7 @@
         {
             var entity = await _repository.GetByIdAsync(id);
             if (entity == null)
-                throw new MenuItemNotFoundException($"MenuItem with id {id} not found.");
+                throw new MenuItemNotFoundException($"ID-si {id} olan məhsul tapılmadı.");
 
             await _repository.RemoveAsync(entity);
             await _repository.SaveChangesAsync();
@@ -37,10 +37,11 @@
         {
             var entity = await _repository.GetByIdAsync(id);
             if (entity == null)
-                throw new MenuItemNotFoundException($"MenuItem with id {id} not found.");
-            if(await _repository.IsExistAsync(m=>m.Name.ToLower()==name.ToLower() && m.Id!=id))
+                throw new MenuItemNotFoundException($"ID-si {id} olan məhsul tapılmadı.");
+            
+            if(await _repository.IsExistAsync(m => m.Name.Equals(name, StringComparison.OrdinalIgnoreCase) && m.Id != id))
             {
-                throw new MenuItemAlreadyExistException($"MenuItem with name {name} already exists.");
+                throw new MenuItemAlreadyExistException($"{name} adlı məhsul artıq mövcuddur.");
             }
             entity.Name = name;
             entity.Price = price;
@@ -69,7 +70,7 @@
         public async Task<List<MenuItem>> SearchMenuItemsAsync(string search)
         {
            var query = await _repository.GetAllAsync(
-                m => m.Name.ToLower().Contains(search.ToLower()),
+                m => m.Name.Contains(search, StringComparison.OrdinalIgnoreCase),
                 q => q.Include(m => m.Category));
            return await query.ToListAsync();
            

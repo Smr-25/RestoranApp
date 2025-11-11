@@ -7,6 +7,9 @@
             builder.ToTable("MenuItem");
             builder.HasKey(m => m.Id);
 
+            builder.Property(m => m.Id)
+                .UseIdentityColumn(26);
+
             builder.Property(m => m.Name)
                 .IsRequired()
                 .HasMaxLength(200);

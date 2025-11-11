@@ -1,12 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
-using RestaurantApp.Core.Models;
-using RestaurantApp.DDL.Data.Configurations;
-
-namespace RestaurantApp.DDL.Data
+﻿namespace RestaurantApp.DDL.Data
 {
 
     public class RestaurantDbContext : DbContext
     {
+        
+        public RestaurantDbContext(DbContextOptions<RestaurantDbContext> options)
+            : base(options)
+        {
+        }
+
         public DbSet<Order> Orders {  get; set; }
 
         public DbSet<OrderItem> OrderItems { get; set; }
@@ -17,7 +19,8 @@ namespace RestaurantApp.DDL.Data
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer();
+            optionsBuilder.UseSqlServer(
+                "Server=.;Database=RestaurantDb;Trusted_Connection=True;TrustServerCertificate=True");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

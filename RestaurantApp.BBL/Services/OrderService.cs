@@ -16,7 +16,7 @@ namespace RestaurantApp.BBL.Services
         public async Task AddOrderAsync(Dictionary<int, int> menuItemsWithCounts)
         {
             if (menuItemsWithCounts == null || !menuItemsWithCounts.Any())
-                throw new OrderNotFoundException("Order must contain at least one item.");
+                throw new OrderNotFoundException("Sifariş ən azı 1 məhsul ehtiva etməlidir.");
 
             var orderItems = new List<OrderItem>();
             decimal totalAmount = 0;
@@ -25,10 +25,10 @@ namespace RestaurantApp.BBL.Services
             {
                 var menuItem = await _menuItemRepository.GetByIdAsync(item.Key);
                 if (menuItem == null)
-                    throw new MenuItemNotFoundException($"MenuItem with id {item.Key} not found.");
+                    throw new MenuItemNotFoundException($"ID-si {item.Key} olan məhsul tapılmadı.");
 
                 if (item.Value <= 0)
-                    throw new CountZeroException("Count must be greater than zero.");
+                    throw new CountZeroException("Say sıfırdan böyük olmalıdır.");
 
                 orderItems.Add(new OrderItem
                 {
@@ -37,6 +37,7 @@ namespace RestaurantApp.BBL.Services
                 });
 
                 totalAmount += menuItem.Price * item.Value;
+               
             }
 
             var order = new Order
@@ -54,7 +55,7 @@ namespace RestaurantApp.BBL.Services
         {
             var order = await _orderRepository.GetByIdAsync(id);
             if (order == null)
-                throw new OrderNotFoundException($"Order with id {id} not found.");
+                throw new OrderNotFoundException($"ID-si {id} olan sifariş tapılmadı.");
 
             await _orderRepository.RemoveAsync(order);
             await _orderRepository.SaveChangesAsync();
@@ -62,7 +63,7 @@ namespace RestaurantApp.BBL.Services
 
         public async Task<List<Order>> GetOrdersByDateAsync(DateTime date)
         {
-            var orders = await _orderRepository.GetAllAsync(o=>o.Date == date,
+            var orders = await _orderRepository.GetAllAsync(o=>o.Date.Date == date.Date,
                 q=>q.Include(o=>o.OrderItems)
                     .ThenInclude(oi=>oi.MenuItem));
             return await orders.ToListAsync();
@@ -86,12 +87,14 @@ namespace RestaurantApp.BBL.Services
         public async Task<List<Order>> GetAllOrdersAsync()
         {
             var orders = await _orderRepository.GetAllAsync();
-            return await orders.ToListAsync();
+            var ordersWithIncludes = orders.Include(o => o.OrderItems)
+                                           .ThenInclude(oi => oi.MenuItem);
+            return await ordersWithIncludes.ToListAsync();
         }
 
         public async Task<List<Order>> GetOrdersByDateRangeAsync(DateTime startDate, DateTime endDate)
         {
-            var orders = await _orderRepository.GetAllAsync(o=>o.Date >= startDate && o.Date <= endDate,
+            var orders = await _orderRepository.GetAllAsync(o=>o.Date.Date >= startDate && o.Date.Date <= endDate,
                 q=>q.Include(o=>o.OrderItems)
                     .ThenInclude(oi=>oi.MenuItem));
             return await orders.ToListAsync();

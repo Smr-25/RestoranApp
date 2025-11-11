@@ -1,5 +1,4 @@
 using AutoMapper;
-using RestaurantApp.Core.Models;
 
 namespace RestaurantApp.BBL.DTOs
 {
@@ -11,9 +10,6 @@ namespace RestaurantApp.BBL.DTOs
                 .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name));
 
             CreateMap<Order, OrderDto>()
-                .ForMember(dest => dest.TotalItemCount, opt => opt.MapFrom(src => src.OrderItems.Sum(oi => oi.Count)));
-
-            CreateMap<Order, OrderDetailDto>()
                 .ForMember(dest => dest.TotalItemCount, opt => opt.MapFrom(src => src.OrderItems.Sum(oi => oi.Count)))
                 .ForMember(dest => dest.OrderItems, opt => opt.MapFrom(src => src.OrderItems));
 
