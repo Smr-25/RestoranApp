@@ -1,4 +1,4 @@
-﻿namespace RestaurantApp.BBL.DTOs.MenuItems
+﻿namespace RestaurantApp.BBL.Dtos.MenuItems
 {
     public class MenuItemUpdateDto
     {

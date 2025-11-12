@@ -3,32 +3,36 @@ namespace RestaurantApp.BBL.Services
     public class CategoryService : ICategoryService
     {
         private readonly IRepository<Category> _repository;
+        private readonly IMapper _mapper;
 
-        public CategoryService(IRepository<Category> repository)
+        public CategoryService(IRepository<Category> repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
-        public async Task<List<Category>> GetAllCategoriesAsync()
+        public async Task<List<CategoryReturnDto>> GetAllCategoriesAsync()
         {
             var query = await _repository.GetAllAsync();
-            return await query.ToListAsync();
+            var categories = await query.ToListAsync();
+            return _mapper.Map<List<CategoryReturnDto>>(categories);
         }
 
-        public async Task<Category?> GetCategoryByIdAsync(int id)
+        public async Task<CategoryReturnDto?> GetCategoryByIdAsync(int id)
         {
-            return await _repository.GetByIdAsync(id);
+            var category = await _repository.GetByIdAsync(id);
+            return category == null ? null : _mapper.Map<CategoryReturnDto>(category);
         }
         
-        public async Task AddCategoryAsync(string name)
+        public async Task AddCategoryAsync(CategoryCreateDto dto)
         {
-            if (await _repository.IsExistAsync(c => c.Name.ToLower() == name.ToLower()))
+            if (await _repository.IsExistAsync(c => c.Name.ToLower() == dto.Name.ToLower()))
             {
-                throw new EntityAlreadyExistException($"{name} adlı kateqoriya artıq mövcuddur.");
+                throw new EntityAlreadyExistException($"{dto.Name} adlı kateqoriya artıq mövcuddur.");
             }
             var category = new Category
             {
-                Name = name
+                Name = dto.Name
             };
 
             await _repository.AddAsync(category);
@@ -45,17 +49,17 @@ namespace RestaurantApp.BBL.Services
             await _repository.SaveChangesAsync();
         }
         
-        public async Task EditCategoryAsync(int id, string name)
+        public async Task EditCategoryAsync(CategoryUpdateDto dto)
         {
-            var entity = await _repository.GetByIdAsync(id);
+            var entity = await _repository.GetByIdAsync(dto.Id);
             if (entity == null)
-                throw new EntityNotFoundException($"ID-si {id} olan kateqoriya tapılmadı.");
+                throw new EntityNotFoundException($"ID-si {dto.Id} olan kateqoriya tapılmadı.");
             
-            if(await _repository.IsExistAsync(c => c.Name.ToLower() == name.ToLower() && c.Id != id))
+            if(await _repository.IsExistAsync(c => c.Name.ToLower() == dto.Name.ToLower() && c.Id != dto.Id))
             {
-                throw new EntityAlreadyExistException($"{name} adlı kateqoriya artıq mövcuddur.");
+                throw new EntityAlreadyExistException($"{dto.Name} adlı kateqoriya artıq mövcuddur.");
             }
-            entity.Name = name;
+            entity.Name = dto.Name;
             await _repository.UpdateAsync(entity);
             await _repository.SaveChangesAsync();
         }

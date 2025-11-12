@@ -4,29 +4,31 @@
     {
         private readonly IRepository<MenuItem> _repository;
         private readonly IRepository<Category> _categoryRepository;
+        private readonly IMapper _mapper;
 
-        public MenuItemService(IRepository<MenuItem> repository, IRepository<Category> categoryRepository)
+        public MenuItemService(IRepository<MenuItem> repository, IRepository<Category> categoryRepository, IMapper mapper)
         {
             _repository = repository;
             _categoryRepository = categoryRepository;
+            _mapper = mapper;
         }
 
-        public async Task AddMenuItemAsync(string name,decimal price,int categoryId)
+        public async Task AddMenuItemAsync(MenuItemCreateDto dto)
         {
-            if (await _repository.IsExistAsync(m => m.Name.ToLower() == name.ToLower()))
+            if (await _repository.IsExistAsync(m => m.Name.ToLower() == dto.Name.ToLower()))
             {
-                throw new MenuItemAlreadyExistException($"{name} adlı məhsul artıq mövcuddur.");
+                throw new EntityAlreadyExistException($"{dto.Name} adlı məhsul artıq mövcuddur.");
             }
 
-            if (!await _categoryRepository.IsExistAsync(c => c.Id == categoryId))
+            if (!await _categoryRepository.IsExistAsync(c => c.Id == dto.CategoryId))
             {
-                throw new EntityNotFoundException($"ID-si {categoryId} olan kateqoriya tapılmadı.");
+                throw new EntityNotFoundException($"ID-si {dto.CategoryId} olan kateqoriya tapılmadı.");
             }
             var menuItem = new MenuItem
             {
-                Name = name,
-                Price = price,
-                CategoryId = categoryId
+                Name = dto.Name,
+                Price = dto.Price,
+                CategoryId = dto.CategoryId
             };
 
             await _repository.AddAsync(menuItem);
@@ -37,65 +39,76 @@
         {
             var entity = await _repository.GetByIdAsync(id);
             if (entity == null)
-                throw new MenuItemNotFoundException($"ID-si {id} olan məhsul tapılmadı.");
+                throw new EntityNotFoundException($"ID-si {id} olan məhsul tapılmadı.");
 
             await _repository.RemoveAsync(entity);
             await _repository.SaveChangesAsync();
         }
 
 
-        public async Task EditMenuItemAsync(int id, string name,decimal price)
+        public async Task EditMenuItemAsync(MenuItemUpdateDto dto)
         {
-            var entity = await _repository.GetByIdAsync(id);
+            var entity = await _repository.GetByIdAsync(dto.Id);
             if (entity == null)
-                throw new MenuItemNotFoundException($"ID-si {id} olan məhsul tapılmadı.");
+                throw new EntityNotFoundException($"ID-si {dto.Id} olan məhsul tapılmadı.");
             
-            if(await _repository.IsExistAsync(m => m.Name.ToLower() == name.ToLower() && m.Id != id))
+            if(await _repository.IsExistAsync(m => m.Name.ToLower() == dto.Name.ToLower() && m.Id != dto.Id))
             {
-                throw new MenuItemAlreadyExistException($"{name} adlı məhsul artıq mövcuddur.");
+                throw new EntityAlreadyExistException($"{dto.Name} adlı məhsul artıq mövcuddur.");
             }
-            entity.Name = name;
-            entity.Price = price;
+            
+            if (!await _categoryRepository.IsExistAsync(c => c.Id == dto.CategoryId))
+            {
+                throw new EntityNotFoundException($"ID-si {dto.CategoryId} olan kateqoriya tapılmadı.");
+            }
+            
+            entity.Name = dto.Name;
+            entity.Price = dto.Price;
+            entity.CategoryId = dto.CategoryId;
             await _repository.UpdateAsync(entity);
             await _repository.SaveChangesAsync();
         }
 
-        public async Task<List<MenuItem>> GetMenuItemsByCategoryAsync(int categoryId)
+        public async Task<List<MenuItemReturnDto>> GetMenuItemsByCategoryAsync(int categoryId)
         {
             var query = await _repository.GetAllAsync(
                 m => m.CategoryId == categoryId,
                 q => q.Include(m => m.Category));
 
-            return await query.ToListAsync();
-               
+            var menuItems = await query.ToListAsync();
+            return _mapper.Map<List<MenuItemReturnDto>>(menuItems);
         }
 
-        public async Task<List<MenuItem>> GetMenuItemsByPriceRangeAsync(decimal minPrice, decimal maxPrice)
+        public async Task<List<MenuItemReturnDto>> GetMenuItemsByPriceRangeAsync(decimal minPrice, decimal maxPrice)
         {
             var query = await _repository.GetAllAsync(m => m.Price >= minPrice && m.Price <= maxPrice,
                 q => q.Include(m => m.Category));
-            return await query.ToListAsync();
+            var menuItems = await query.ToListAsync();
+            return _mapper.Map<List<MenuItemReturnDto>>(menuItems);
         }
         
 
-        public async Task<List<MenuItem>> SearchMenuItemsAsync(string search)
+        public async Task<List<MenuItemReturnDto>> SearchMenuItemsAsync(string search)
         {
            var query = await _repository.GetAllAsync(
                 m => m.Name.ToLower().Contains(search.ToLower()),
                 q => q.Include(m => m.Category));
-           return await query.ToListAsync();
-           
+           var menuItems = await query.ToListAsync();
+           return _mapper.Map<List<MenuItemReturnDto>>(menuItems);
         }
 
-        public async Task<List<MenuItem>> GetAllMenuItemsAsync()
+        public async Task<List<MenuItemReturnDto>> GetAllMenuItemsAsync()
         {
-            var query = await _repository.GetAllAsync();
-            return await query.Include(m => m.Category).ToListAsync();
+            var query = await _repository.GetAllAsync(
+               q => q.Include(m => m.Category));
+            var menuItems = await query.ToListAsync();
+            return _mapper.Map<List<MenuItemReturnDto>>(menuItems);
         }
 
-        public async Task<MenuItem?> GetMenuItemByIdAsync(int id)
+        public async Task<MenuItemReturnDto?> GetMenuItemByIdAsync(int id)
         {
-            return await _repository.GetByIdAsync(id,q => q.Include(m => m.Category));
+            var menuItem = await _repository.GetByIdAsync(id, q => q.Include(m => m.Category));
+            return menuItem == null ? null : _mapper.Map<MenuItemReturnDto>(menuItem);
         }
 
         

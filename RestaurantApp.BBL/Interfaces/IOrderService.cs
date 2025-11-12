@@ -2,17 +2,17 @@
 {
     public interface IOrderService
     {
-        Task AddOrderAsync(Dictionary<int, int> menuItemsWithCounts);
+        Task AddOrderAsync(OrderCreateDto dto);
         Task RemoveOrderAsync(int id);
 
-        Task<List<Order>> GetOrdersByDateAsync(DateTime date);
+        Task<List<OrderReturnDto>> GetOrdersByDateAsync(DateTime date);
 
-        Task<Order?> GetOrderByIdAsync(int id);
+        Task<OrderReturnDto?> GetOrderByIdAsync(int id);
 
-        Task<List<Order>> GetOrdersByPriceIntervalAsync(decimal minPrice, decimal maxPrice);
+        Task<List<OrderReturnDto>> GetOrdersByPriceIntervalAsync(decimal minPrice, decimal maxPrice);
         
-        Task<List<Order>> GetAllOrdersAsync();
+        Task<List<OrderReturnDto>> GetAllOrdersAsync();
         
-        Task<List<Order>> GetOrdersByDateRangeAsync(DateTime startDate, DateTime endDate);
+        Task<List<OrderReturnDto>> GetOrdersByDateRangeAsync(DateTime startDate, DateTime endDate);
     }
 }

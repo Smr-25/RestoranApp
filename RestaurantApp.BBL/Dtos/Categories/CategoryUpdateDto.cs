@@ -1,4 +1,4 @@
-﻿namespace RestaurantApp.BBL.DTOs.Categories
+﻿namespace RestaurantApp.BBL.Dtos.Categories
 {
     public class CategoryUpdateDto
     {

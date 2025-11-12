@@ -1,7 +1,6 @@
-using AutoMapper;
-using RestaurantApp.BBL.DTOs.MenuItems;
-using RestaurantApp.BBL.DTOs.Orders;
-using RestaurantApp.BBL.Interfaces;
+using RestaurantApp.BBL.Dtos.MenuItems;
+using RestaurantApp.BBL.Dtos.Orders;
+using RestaurantApp.BBL.Dtos.OrderItems;
 
 namespace RestaurantApp.PL.Executors
 {
@@ -9,13 +8,11 @@ namespace RestaurantApp.PL.Executors
     {
         private readonly IOrderService _orderService;
         private readonly IMenuItemService _menuItemService;
-        private readonly IMapper _mapper;
 
-        public OrderExecutor(IOrderService orderService, IMenuItemService menuItemService, IMapper mapper)
+        public OrderExecutor(IOrderService orderService, IMenuItemService menuItemService)
         {
             _orderService = orderService;
             _menuItemService = menuItemService;
-            _mapper = mapper;
         }
 
         public async Task ExecuteAddOrderAsync()
@@ -24,8 +21,7 @@ namespace RestaurantApp.PL.Executors
 
             try
             {
-                var allItems = await _menuItemService.GetAllMenuItemsAsync();
-                var itemDtos = _mapper.Map<List<MenuItemReturnDto>>(allItems);
+                var itemDtos = await _menuItemService.GetAllMenuItemsAsync();
 
                 if (!itemDtos.Any())
                 {
@@ -41,13 +37,13 @@ namespace RestaurantApp.PL.Executors
                     Console.WriteLine(item);
                 }
 
-                var orderItems = new Dictionary<int, int>();
+                var orderItems = new List<OrderItemCreateDto>();
 
                 while (true)
                 {
                     MenuItemNo:
                     Console.Write("\nMenu item nömrəsi (0 - bitirmək): ");
-                    string itemIdInput = Console.ReadLine();
+                    string itemIdInput = Console.ReadLine()!;
                     if (!int.TryParse(itemIdInput, out int itemId))
                     {
                         Console.WriteLine("Yanlış format! Yenidən cəhd edin.");
@@ -67,26 +63,28 @@ namespace RestaurantApp.PL.Executors
 
                     Count:
                     Console.Write("Say: ");
-                    string countInput = Console.ReadLine();
+                    string countInput = Console.ReadLine()!;
                     if (!int.TryParse(countInput, out int count) || count <= 0)
                     {
                         Console.WriteLine("Yanlış say! Yenidən cəhd edin.");
                         goto Count;
                     }
 
-                    if (orderItems.ContainsKey(itemId))
+                    var existingItem = orderItems.FirstOrDefault(oi => oi.MenuItemId == itemId);
+                    if (existingItem != null)
                     {
-                        orderItems[itemId] += count;
+                        existingItem.Count += count;
                     }
                     else
                     {
-                        orderItems[itemId] = count;
+                        orderItems.Add(new OrderItemCreateDto { MenuItemId = itemId, Count = count });
                     }
 
                     Console.WriteLine($"Əlavə edildi: {count} ədəd");
                 }
 
-                await _orderService.AddOrderAsync(orderItems);
+                var dto = new OrderCreateDto { OrderItems = orderItems };
+                await _orderService.AddOrderAsync(dto);
                 Console.WriteLine("\nSifariş uğurla əlavə edildi!");
             }
             catch (Exception ex)
@@ -101,7 +99,7 @@ namespace RestaurantApp.PL.Executors
 
             OrderNo:
             Console.Write("Silinəcək sifariş nömrəsi: ");
-            string idInput = Console.ReadLine();
+            string idInput = Console.ReadLine()!;
             if (!int.TryParse(idInput, out int id))
             {
                 Console.WriteLine("Yanlış ID formatı! Yenidən cəhd edin.");
@@ -125,8 +123,7 @@ namespace RestaurantApp.PL.Executors
 
             try
             {
-                var orders = await _orderService.GetAllOrdersAsync();
-                var orderDtos = _mapper.Map<List<OrderDto>>(orders);
+                var orderDtos = await _orderService.GetAllOrdersAsync();
 
                 if (!orderDtos.Any())
                 {
@@ -134,8 +131,8 @@ namespace RestaurantApp.PL.Executors
                     return;
                 }
 
-                Console.WriteLine(OrderDto.GetHeader());
-                Console.WriteLine(OrderDto.GetSeparator());
+                Console.WriteLine(OrderReturnDto.GetHeader());
+                Console.WriteLine(OrderReturnDto.GetSeparator());
                 foreach (var order in orderDtos)
                 {
                     Console.WriteLine(order);
@@ -153,7 +150,7 @@ namespace RestaurantApp.PL.Executors
 
             StartDate:
             Console.Write("Başlanğıc tarixi (yyyy-MM-dd): ");
-            string startDateInput = Console.ReadLine();
+            string startDateInput = Console.ReadLine()!;
             if (!DateTime.TryParse(startDateInput, out DateTime startDate))
             {
                 Console.WriteLine("Yanlış tarix formatı! Yenidən cəhd edin.");
@@ -162,7 +159,7 @@ namespace RestaurantApp.PL.Executors
 
             EndDate:
             Console.Write("Bitmə tarixi (yyyy-MM-dd): ");
-            string endDateInput = Console.ReadLine();
+            string endDateInput = Console.ReadLine()!;
             if (!DateTime.TryParse(endDateInput, out DateTime endDate))
             {
                 Console.WriteLine("Yanlış tarix formatı! Yenidən cəhd edin.");
@@ -171,8 +168,7 @@ namespace RestaurantApp.PL.Executors
 
             try
             {
-                var orders = await _orderService.GetOrdersByDateRangeAsync(startDate, endDate);
-                var orderDtos = _mapper.Map<List<OrderDto>>(orders);
+                var orderDtos = await _orderService.GetOrdersByDateRangeAsync(startDate, endDate);
 
                 if (!orderDtos.Any())
                 {
@@ -180,8 +176,8 @@ namespace RestaurantApp.PL.Executors
                     return;
                 }
 
-                Console.WriteLine(OrderDto.GetHeader());
-                Console.WriteLine(OrderDto.GetSeparator());
+                Console.WriteLine(OrderReturnDto.GetHeader());
+                Console.WriteLine(OrderReturnDto.GetSeparator());
                 foreach (var order in orderDtos)
                 {
                     Console.WriteLine(order);
@@ -199,7 +195,7 @@ namespace RestaurantApp.PL.Executors
 
             MinPrice:
             Console.Write("Minimum məbləğ: ");
-            string minPriceInput = Console.ReadLine();
+            string minPriceInput = Console.ReadLine()!;
             if (!decimal.TryParse(minPriceInput, out decimal minPrice))
             {
                 Console.WriteLine("Yanlış məbləğ formatı! Yenidən cəhd edin.");
@@ -208,7 +204,7 @@ namespace RestaurantApp.PL.Executors
 
             MaxPrice:
             Console.Write("Maksimum məbləğ: ");
-            string maxPriceInput = Console.ReadLine();
+            string maxPriceInput = Console.ReadLine()!;
             if (!decimal.TryParse(maxPriceInput, out decimal maxPrice))
             {
                 Console.WriteLine("Yanlış məbləğ formatı! Yenidən cəhd edin.");
@@ -217,8 +213,7 @@ namespace RestaurantApp.PL.Executors
 
             try
             {
-                var orders = await _orderService.GetOrdersByPriceIntervalAsync(minPrice, maxPrice);
-                var orderDtos = _mapper.Map<List<OrderDto>>(orders);
+                var orderDtos = await _orderService.GetOrdersByPriceIntervalAsync(minPrice, maxPrice);
 
                 if (!orderDtos.Any())
                 {
@@ -226,8 +221,8 @@ namespace RestaurantApp.PL.Executors
                     return;
                 }
 
-                Console.WriteLine(OrderDto.GetHeader());
-                Console.WriteLine(OrderDto.GetSeparator());
+                Console.WriteLine(OrderReturnDto.GetHeader());
+                Console.WriteLine(OrderReturnDto.GetSeparator());
                 foreach (var order in orderDtos)
                 {
                     Console.WriteLine(order);
@@ -243,17 +238,18 @@ namespace RestaurantApp.PL.Executors
         {
             Console.WriteLine("\n=== Tarixə Görə Sifarişlər ===");
 
+            DateInput:
             Console.Write("Tarix (yyyy-MM-dd): ");
-            if (!DateTime.TryParse(Console.ReadLine(), out DateTime date))
+            string dateInput = Console.ReadLine()!;
+            if (!DateTime.TryParse(dateInput, out DateTime date))
             {
-                Console.WriteLine("Yanlış tarix formatı!");
-                return;
+                Console.WriteLine("Yanlış tarix formatı! Yenidən cəhd edin.");
+                goto DateInput;
             }
 
             try
             {
-                var orders = await _orderService.GetOrdersByDateAsync(date);
-                var orderDtos = _mapper.Map<List<OrderDto>>(orders);
+                var orderDtos = await _orderService.GetOrdersByDateAsync(date);
 
                 if (!orderDtos.Any())
                 {
@@ -261,8 +257,8 @@ namespace RestaurantApp.PL.Executors
                     return;
                 }
 
-                Console.WriteLine(OrderDto.GetHeader());
-                Console.WriteLine(OrderDto.GetSeparator());
+                Console.WriteLine(OrderReturnDto.GetHeader());
+                Console.WriteLine(OrderReturnDto.GetSeparator());
                 foreach (var order in orderDtos)
                 {
                     Console.WriteLine(order);
@@ -276,28 +272,25 @@ namespace RestaurantApp.PL.Executors
 
         public async Task ExecuteShowOrderByNoAsync()
         {
+            Console.WriteLine("\n=== Sifariş Detalları ===");
             
             OrderNo:
             Console.Write("Sifariş nömrəsi: ");
-            string idInput = Console.ReadLine();
+            string idInput = Console.ReadLine()!;
             if (!int.TryParse(idInput, out int id))
             {
                 Console.WriteLine("Yanlış ID formatı! Yenidən cəhd edin.");
                 goto OrderNo;
             }
-            
-            Console.WriteLine("\n=== Sifariş Detalları ===");
 
             try
             {
-                var order = await _orderService.GetOrderByIdAsync(id);
-                if (order == null)
+                var orderDto = await _orderService.GetOrderByIdAsync(id);
+                if (orderDto == null)
                 {
                     Console.WriteLine("Sifariş tapılmadı.");
                     return;
                 }
-
-                var orderDto = _mapper.Map<OrderDto>(order);
 
                 Console.WriteLine(orderDto.ToDetailedString());
             }
@@ -306,7 +299,8 @@ namespace RestaurantApp.PL.Executors
                 Console.WriteLine($"Xəta: {ex.Message}");
             }
         }
-        public async Task ShowOrderOperationsMenuAsync()
+
+        public void ShowOrderOperationsMenuAsync()
         {
             Console.WriteLine("\n" + new string('=', 50));
             Console.WriteLine("   SİFARİŞ ƏMƏLİYYATLARI");
@@ -321,7 +315,6 @@ namespace RestaurantApp.PL.Executors
             Console.WriteLine("0. Əvvəlki menyuya qayıt");
             Console.WriteLine(new string('=', 50));
             Console.Write("Seçiminiz: ");
-
         }
     }
 }

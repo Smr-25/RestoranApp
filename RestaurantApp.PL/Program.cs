@@ -1,6 +1,4 @@
 ﻿var serviceProvider = ConfigureServices();
-Console.OutputEncoding = System.Text.Encoding.UTF8;
-Console.InputEncoding = System.Text.Encoding.UTF8;
 var menuExecutor = serviceProvider.GetRequiredService<MenuItemExecutor>();
 var orderExecutor = serviceProvider.GetRequiredService<OrderExecutor>();
 var categoryExecutor = serviceProvider.GetRequiredService<CategoryExecutor>();
@@ -59,7 +57,7 @@ async Task HandleMenuOperations(MenuItemExecutor executor)
 {
     while (true)
     {
-        await executor.ShowMenuOperationsMenuAsync();
+        executor.ShowMenuOperationsMenuAsync();
         Choice:
         var choiceInput = Console.ReadLine();
         if(string.IsNullOrWhiteSpace(choiceInput))
@@ -106,13 +104,11 @@ async Task HandleMenuOperations(MenuItemExecutor executor)
     }
 }
 
-
-
 async Task HandleOrderOperations(OrderExecutor executor)
 {
     while (true)
     {
-        await executor.ShowOrderOperationsMenuAsync();
+        executor.ShowOrderOperationsMenuAsync();
         Choice:
         var choiceInput = Console.ReadLine();
         if (string.IsNullOrWhiteSpace(choiceInput))
@@ -163,7 +159,7 @@ async Task HandleCategoryOperations(CategoryExecutor executor)
 {
     while (true)
     {
-        await executor.ShowCategoryOperationsMenuAsync();
+        executor.ShowCategoryOperationsMenuAsync();
         Choice:
         var choiceInput = Console.ReadLine();
         if (string.IsNullOrWhiteSpace(choiceInput))
@@ -191,6 +187,9 @@ async Task HandleCategoryOperations(CategoryExecutor executor)
                 break;
             case (int)CategoryChoice.ShowAll:
                 await executor.ExecuteShowAllCategoriesAsync();
+                break;
+            case (int)CategoryChoice.ShowById:
+                await executor.ExecuteShowCategoryByIdAsync();
                 break;
             case (int)CategoryChoice.Exit:
                 Console.WriteLine("Kateqoriya əməliyyatlarından çıxılır...");

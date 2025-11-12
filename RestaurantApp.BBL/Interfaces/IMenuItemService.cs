@@ -2,13 +2,13 @@
 {
     public interface IMenuItemService
     {
-        Task AddMenuItemAsync(string name,decimal price,int categoryId);
+        Task AddMenuItemAsync(MenuItemCreateDto dto);
         Task RemoveMenuItemAsync(int id);
-        Task EditMenuItemAsync(int id, string name, decimal price);
-        Task<List<MenuItem>> GetMenuItemsByCategoryAsync(int categoryId);
-        Task<List<MenuItem>> GetMenuItemsByPriceRangeAsync(decimal minPrice, decimal maxPrice);
-        Task<List<MenuItem>> SearchMenuItemsAsync(string searchTerm);
-        Task<List<MenuItem>> GetAllMenuItemsAsync();
-        Task<MenuItem?> GetMenuItemByIdAsync(int id);
+        Task EditMenuItemAsync(MenuItemUpdateDto dto);
+        Task<List<MenuItemReturnDto>> GetMenuItemsByCategoryAsync(int categoryId);
+        Task<List<MenuItemReturnDto>> GetMenuItemsByPriceRangeAsync(decimal minPrice, decimal maxPrice);
+        Task<List<MenuItemReturnDto>> SearchMenuItemsAsync(string searchTerm);
+        Task<List<MenuItemReturnDto>> GetAllMenuItemsAsync();
+        Task<MenuItemReturnDto?> GetMenuItemByIdAsync(int id);
     }
 }

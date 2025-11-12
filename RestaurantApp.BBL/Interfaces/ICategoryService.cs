@@ -2,12 +2,12 @@ namespace RestaurantApp.BBL.Interfaces
 {
     public interface ICategoryService
     {
-        Task<List<Category>> GetAllCategoriesAsync();
-        Task<Category?> GetCategoryByIdAsync(int id);
+        Task<List<CategoryReturnDto>> GetAllCategoriesAsync();
+        Task<CategoryReturnDto?> GetCategoryByIdAsync(int id);
         
-        Task AddCategoryAsync(string name);
+        Task AddCategoryAsync(CategoryCreateDto dto);
         Task RemoveCategoryAsync(int id);
-        Task EditCategoryAsync(int id, string name);
+        Task EditCategoryAsync(CategoryUpdateDto dto);
     }
 }
 

@@ -1,6 +1,3 @@
-using System.Linq.Expressions;
-using Microsoft.EntityFrameworkCore.Query;
-
 namespace RestaurantApp.DDL.Repostories.Concretes
 {
     public class Repository<T> : IRepository<T> where T : BaseEntity
@@ -35,24 +32,39 @@ namespace RestaurantApp.DDL.Repostories.Concretes
 
         public async Task SaveChangesAsync()
         {
-           await  _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
 
         public async Task<T?> GetByIdAsync(int id)
         {
             return await Table.FindAsync(id);
         }
-        
-        public async Task<bool> IsExistAsync(Expression<Func<T, bool>> predicate )
+
+        public async Task<bool> IsExistAsync(Expression<Func<T, bool>> predicate)
         {
             return await Table.AnyAsync(predicate);
         }
-        
+
         public async Task<IQueryable<T>> GetAllAsync()
         {
             return Table.AsQueryable();
         }
-        public async Task<IQueryable<T>> GetAllAsync(Expression<Func<T, bool>> predicate = null, Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null)
+
+        public async Task<IQueryable<T>> GetAllAsync(
+            Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null)
+        {
+            IQueryable<T> query = Table;
+
+            if (include != null)
+            {
+                query = include(query);
+            }
+
+            return query;
+        }
+
+        public async Task<IQueryable<T>> GetAllAsync(Expression<Func<T, bool>> predicate = null,
+            Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null)
         {
             IQueryable<T> query = Table;
 
@@ -68,8 +80,8 @@ namespace RestaurantApp.DDL.Repostories.Concretes
 
             return query;
         }
-        
-        public async Task<T?> GetByIdAsync(int id,Func<IQueryable<T> , IIncludableQueryable<T, object>>? include = null)
+
+        public async Task<T?> GetByIdAsync(int id, Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null)
         {
             IQueryable<T> query = Table;
 
@@ -77,11 +89,8 @@ namespace RestaurantApp.DDL.Repostories.Concretes
             {
                 query = include(query);
             }
-            
+
             return await query.FirstOrDefaultAsync(e => e.Id == id);
         }
-        
-
     }
 }
-

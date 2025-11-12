@@ -1,4 +1,4 @@
-﻿﻿namespace RestaurantApp.DDL.Data.Configurations
+﻿namespace RestaurantApp.DDL.Data.Configurations
 {
     public class OrderConfiguration : IEntityTypeConfiguration<Order>
     {

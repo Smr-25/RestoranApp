@@ -3,3 +3,8 @@ global using RestaurantApp.Core.Models;
 global using RestaurantApp.DDL.Repostories.Intefaces;
 global using Microsoft.EntityFrameworkCore; 
 global using RestaurantApp.BBL.Exceptions;
+global using AutoMapper;
+global using RestaurantApp.BBL.Dtos.MenuItems;
+global using RestaurantApp.BBL.Dtos.Orders;
+global using RestaurantApp.BBL.Dtos.OrderItems;
+global using RestaurantApp.BBL.Dtos.Categories;

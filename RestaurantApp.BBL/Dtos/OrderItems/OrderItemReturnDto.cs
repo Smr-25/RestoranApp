@@ -1,4 +1,4 @@
-namespace RestaurantApp.BBL.DTOs.OrderItems
+namespace RestaurantApp.BBL.Dtos.OrderItems
 { 
     public class OrderItemReturnDto
     {

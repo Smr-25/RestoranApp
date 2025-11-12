@@ -1,6 +1,6 @@
-﻿using RestaurantApp.BBL.DTOs.OrderItems;
+﻿using RestaurantApp.BBL.Dtos.OrderItems;
 
-namespace RestaurantApp.BBL.DTOs.Orders
+namespace RestaurantApp.BBL.Dtos.Orders
 {
     public class OrderCreateDto
     {

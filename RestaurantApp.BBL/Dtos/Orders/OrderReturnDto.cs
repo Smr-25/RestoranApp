@@ -1,6 +1,4 @@
-using RestaurantApp.BBL.DTOs.OrderItems;
-
-namespace RestaurantApp.BBL.DTOs.Orders
+namespace RestaurantApp.BBL.Dtos.Orders
 {
     public class OrderReturnDto
     {

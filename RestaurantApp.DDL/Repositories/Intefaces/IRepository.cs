@@ -1,6 +1,3 @@
-using System.Linq.Expressions;
-using Microsoft.EntityFrameworkCore.Query;
-
 namespace RestaurantApp.DDL.Repostories.Intefaces
 {
     public interface IRepository<T> where T : BaseEntity
@@ -21,6 +18,7 @@ namespace RestaurantApp.DDL.Repostories.Intefaces
         
         Task<IQueryable<T>> GetAllAsync();
         
+        Task <IQueryable<T>> GetAllAsync(Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null);
         Task<IQueryable<T>> GetAllAsync(Expression<Func<T, bool>> predicate, Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null);
         
         Task<T?> GetByIdAsync(int id,Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null);

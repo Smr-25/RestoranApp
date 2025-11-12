@@ -1,6 +1,5 @@
-namespace RestaurantApp.BBL.DTOs.MenuItems
+namespace RestaurantApp.BBL.Dtos.MenuItems
 {
-    // Get üçün - göstərmək məqsədilə
     public class MenuItemReturnDto
     {
         public int Id { get; set; }
@@ -23,6 +22,4 @@ namespace RestaurantApp.BBL.DTOs.MenuItems
             return new string('-', 70);
         }
     }
-
-
 }

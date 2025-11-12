@@ -1,6 +1,5 @@
-namespace RestaurantApp.BBL.DTOs.Categories
+namespace RestaurantApp.BBL.Dtos.Categories
 {
-    // Get üçün - göstərmək məqsədilə
     public class CategoryReturnDto
     {
         public int Id { get; set; }
@@ -21,8 +20,6 @@ namespace RestaurantApp.BBL.DTOs.Categories
             return new string('-', 40);
         }
     }
-
- 
 }
 
 

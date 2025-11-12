@@ -6,5 +6,6 @@ public enum CategoryChoice
     Add,
     Edit,
     Remove,
-    ShowAll
+    ShowAll,
+    ShowById
 }
