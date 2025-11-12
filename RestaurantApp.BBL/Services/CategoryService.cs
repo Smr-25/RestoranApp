@@ -22,6 +22,10 @@ namespace RestaurantApp.BBL.Services
         
         public async Task AddCategoryAsync(string name)
         {
+            if (await _repository.IsExistAsync(c => c.Name.ToLower() == name.ToLower()))
+            {
+                throw new CategoryAlreadyExistException($"{name} adlı kateqoriya artıq mövcuddur.");
+            }
             var category = new Category
             {
                 Name = name
@@ -47,7 +51,7 @@ namespace RestaurantApp.BBL.Services
             if (entity == null)
                 throw new CategoryNotFoundException($"ID-si {id} olan kateqoriya tapılmadı.");
             
-            if(await _repository.IsExistAsync(c => c.Name.Equals(name, StringComparison.OrdinalIgnoreCase) && c.Id != id))
+            if(await _repository.IsExistAsync(c => c.Name.ToLower() == name.ToLower() && c.Id != id))
             {
                 throw new CategoryAlreadyExistException($"{name} adlı kateqoriya artıq mövcuddur.");
             }

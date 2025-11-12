@@ -2,6 +2,7 @@
 
 var menuExecutor = serviceProvider.GetRequiredService<MenuItemExecutor>();
 var orderExecutor = serviceProvider.GetRequiredService<OrderExecutor>();
+var categoryExecutor = serviceProvider.GetRequiredService<CategoryExecutor>();
 
 while (true)
 {
@@ -25,6 +26,9 @@ while (true)
         case (int)MainMenuChoice.MenuOperations:
             await HandleMenuOperations(menuExecutor);
             break;
+        case (int)MainMenuChoice.CategoryOperations:
+            await HandleCategoryOperations(categoryExecutor);
+            break;
         case (int)MainMenuChoice.OrderOperations:
             await HandleOrderOperations(orderExecutor);
             break;
@@ -43,7 +47,8 @@ void ShowMainMenu()
     Console.WriteLine("   RESTORAN İDARƏETMƏ SİSTEMİ");
     Console.WriteLine(new string('=', 50));
     Console.WriteLine("1. Menu üzərində əməliyyat aparmaq");
-    Console.WriteLine("2. Sifarişlər üzərində əməliyyat aparmaq");
+    Console.WriteLine("2. Kateqoriyalar üzərində əməliyyat aparmaq");
+    Console.WriteLine("3. Sifarişlər üzərində əməliyyat aparmaq");
     Console.WriteLine("0. Sistemdən çıxmaq");
     Console.WriteLine(new string('=', 50));
     Console.Write("Seçiminiz: ");
@@ -153,7 +158,48 @@ async Task HandleOrderOperations(OrderExecutor executor)
     }
 }
 
+async Task HandleCategoryOperations(CategoryExecutor executor)
+{
+    while (true)
+    {
+        await executor.ShowCategoryOperationsMenuAsync();
+        Choice:
+        var choiceInput = Console.ReadLine();
+        if (string.IsNullOrWhiteSpace(choiceInput))
+        {
+            Console.WriteLine("Yanlış seçim! Yenidən cəhd edin.");
+            goto Choice;
+        }
 
+        if (!int.TryParse(choiceInput, out int choice))
+        {
+            Console.WriteLine("Yanlış format! Yenidən cəhd edin.");
+            goto Choice;
+        }
+
+        switch (choice)
+        {
+            case (int)CategoryChoice.Add:
+                await executor.ExecuteAddCategoryAsync();
+                break;
+            case (int)CategoryChoice.Edit:
+                await executor.ExecuteEditCategoryAsync();
+                break;
+            case (int)CategoryChoice.Remove:
+                await executor.ExecuteRemoveCategoryAsync();
+                break;
+            case (int)CategoryChoice.ShowAll:
+                await executor.ExecuteShowAllCategoriesAsync();
+                break;
+            case (int)CategoryChoice.Exit:
+                Console.WriteLine("Kateqoriya əməliyyatlarından çıxılır...");
+                return;
+            default:
+                Console.WriteLine("Yanlış seçim! Yenidən cəhd edin.");
+                goto Choice;
+        }
+    }
+}
 
 IServiceProvider ConfigureServices()
 {
@@ -162,14 +208,16 @@ IServiceProvider ConfigureServices()
     services.AddAutoMapper(_ => { }, typeof(MappingProfile).Assembly);
 
     services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-    services.AddDbContext<RestaurantDbContext>(options => options.UseSqlServer("Server=.;Database=RestaurantDb;Trusted_Connection=True;TrustServerCertificate=True"));
+    services.AddDbContext<RestaurantDbContext>(options =>
+        options.UseSqlServer(
+            "Server=.;Database=RestaurantDb;Trusted_Connection=True;TrustServerCertificate=True"));
     services.AddScoped<IMenuItemService, MenuItemService>();
     services.AddScoped<IOrderService, OrderService>();
     services.AddScoped<ICategoryService, CategoryService>();
     services.AddLogging();
     services.AddScoped<MenuItemExecutor>();
     services.AddScoped<OrderExecutor>();
-
+    services.AddScoped<CategoryExecutor>();
     return services.BuildServiceProvider();
 }
 

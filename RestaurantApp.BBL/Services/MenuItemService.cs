@@ -3,14 +3,25 @@
     public class MenuItemService : IMenuItemService
     {
         private readonly IRepository<MenuItem> _repository;
+        private readonly IRepository<Category> _categoryRepository;
 
-        public MenuItemService(IRepository<MenuItem> repository)
+        public MenuItemService(IRepository<MenuItem> repository, IRepository<Category> categoryRepository)
         {
             _repository = repository;
+            _categoryRepository = categoryRepository;
         }
 
         public async Task AddMenuItemAsync(string name,decimal price,int categoryId)
         {
+            if (await _repository.IsExistAsync(m => m.Name.ToLower() == name.ToLower()))
+            {
+                throw new MenuItemAlreadyExistException($"{name} adlı məhsul artıq mövcuddur.");
+            }
+
+            if (!await _categoryRepository.IsExistAsync(c => c.Id == categoryId))
+            {
+                throw new CategoryNotFoundException($"ID-si {categoryId} olan kateqoriya tapılmadı.");
+            }
             var menuItem = new MenuItem
             {
                 Name = name,
@@ -39,7 +50,7 @@
             if (entity == null)
                 throw new MenuItemNotFoundException($"ID-si {id} olan məhsul tapılmadı.");
             
-            if(await _repository.IsExistAsync(m => m.Name.Equals(name, StringComparison.OrdinalIgnoreCase) && m.Id != id))
+            if(await _repository.IsExistAsync(m => m.Name.ToLower() == name.ToLower() && m.Id != id))
             {
                 throw new MenuItemAlreadyExistException($"{name} adlı məhsul artıq mövcuddur.");
             }
@@ -70,7 +81,7 @@
         public async Task<List<MenuItem>> SearchMenuItemsAsync(string search)
         {
            var query = await _repository.GetAllAsync(
-                m => m.Name.Contains(search, StringComparison.OrdinalIgnoreCase),
+                m => m.Name.ToLower().Contains(search.ToLower()),
                 q => q.Include(m => m.Category));
            return await query.ToListAsync();
            
