@@ -1,5 +1,6 @@
 ﻿var serviceProvider = ConfigureServices();
-
+Console.OutputEncoding = System.Text.Encoding.UTF8;
+Console.InputEncoding = System.Text.Encoding.UTF8;
 var menuExecutor = serviceProvider.GetRequiredService<MenuItemExecutor>();
 var orderExecutor = serviceProvider.GetRequiredService<OrderExecutor>();
 var categoryExecutor = serviceProvider.GetRequiredService<CategoryExecutor>();
@@ -210,7 +211,7 @@ IServiceProvider ConfigureServices()
     services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
     services.AddDbContext<RestaurantDbContext>(options =>
         options.UseSqlServer(
-            "Server=.;Database=RestaurantDb;Trusted_Connection=True;TrustServerCertificate=True"));
+            "Server=MOON01\\SQLEXPRESS;Database=RestaurantAppDb;Trusted_Connection=True;TrustServerCertificate=True"));
     services.AddScoped<IMenuItemService, MenuItemService>();
     services.AddScoped<IOrderService, OrderService>();
     services.AddScoped<ICategoryService, CategoryService>();
@@ -221,5 +222,4 @@ IServiceProvider ConfigureServices()
     return services.BuildServiceProvider();
 }
 
-// Console.OutputEncoding = System.Text.Encoding.UTF8;
-// Console.InputEncoding = System.Text.Encoding.UTF8;
+

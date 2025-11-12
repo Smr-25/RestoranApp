@@ -24,7 +24,7 @@ namespace RestaurantApp.BBL.Services
         {
             if (await _repository.IsExistAsync(c => c.Name.ToLower() == name.ToLower()))
             {
-                throw new CategoryAlreadyExistException($"{name} adlı kateqoriya artıq mövcuddur.");
+                throw new EntityAlreadyExistException($"{name} adlı kateqoriya artıq mövcuddur.");
             }
             var category = new Category
             {
@@ -39,7 +39,7 @@ namespace RestaurantApp.BBL.Services
         {
             var entity = await _repository.GetByIdAsync(id);
             if (entity == null)
-                throw new CategoryNotFoundException($"ID-si {id} olan kateqoriya tapılmadı.");
+                throw new EntityNotFoundException($"ID-si {id} olan kateqoriya tapılmadı.");
 
             await _repository.RemoveAsync(entity);
             await _repository.SaveChangesAsync();
@@ -49,11 +49,11 @@ namespace RestaurantApp.BBL.Services
         {
             var entity = await _repository.GetByIdAsync(id);
             if (entity == null)
-                throw new CategoryNotFoundException($"ID-si {id} olan kateqoriya tapılmadı.");
+                throw new EntityNotFoundException($"ID-si {id} olan kateqoriya tapılmadı.");
             
             if(await _repository.IsExistAsync(c => c.Name.ToLower() == name.ToLower() && c.Id != id))
             {
-                throw new CategoryAlreadyExistException($"{name} adlı kateqoriya artıq mövcuddur.");
+                throw new EntityAlreadyExistException($"{name} adlı kateqoriya artıq mövcuddur.");
             }
             entity.Name = name;
             await _repository.UpdateAsync(entity);

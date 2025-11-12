@@ -20,7 +20,7 @@
 
             if (!await _categoryRepository.IsExistAsync(c => c.Id == categoryId))
             {
-                throw new CategoryNotFoundException($"ID-si {categoryId} olan kateqoriya tapılmadı.");
+                throw new EntityNotFoundException($"ID-si {categoryId} olan kateqoriya tapılmadı.");
             }
             var menuItem = new MenuItem
             {
