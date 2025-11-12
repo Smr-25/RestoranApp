@@ -1,3 +1,5 @@
+using RestaurantApp.BBL.DTOs.Categories;
+
 namespace RestaurantApp.PL.Executors;
 
 public class CategoryExecutor
@@ -98,7 +100,7 @@ public class CategoryExecutor
         try
         {
             var categories = await _categoryService.GetAllCategoriesAsync();
-            var categoryDtos = _mapper.Map<List<CategoryDto>>(categories);
+            var categoryDtos = _mapper.Map<List<CategoryReturnDto>>(categories);
 
             if (!categoryDtos.Any())
             {
@@ -106,8 +108,8 @@ public class CategoryExecutor
                 return;
             }
 
-            Console.WriteLine(CategoryDto.GetHeader());
-            Console.WriteLine(CategoryDto.GetSeparator());
+            Console.WriteLine(CategoryReturnDto.GetHeader());
+            Console.WriteLine(CategoryReturnDto.GetSeparator());
             foreach (var category in categoryDtos)
             {
                 Console.WriteLine(category);

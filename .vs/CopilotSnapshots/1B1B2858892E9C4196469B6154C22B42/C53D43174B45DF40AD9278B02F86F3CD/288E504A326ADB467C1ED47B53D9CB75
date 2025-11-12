@@ -1,0 +1,7 @@
+﻿namespace RestaurantApp.BBL.DTOs.OrderItems
+{
+    public class OrderItemCreateDto
+    {
+        public
+    }
+}

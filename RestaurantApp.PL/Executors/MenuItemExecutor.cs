@@ -1,3 +1,6 @@
+using RestaurantApp.BBL.DTOs.Categories;
+using RestaurantApp.BBL.DTOs.MenuItems;
+
 namespace RestaurantApp.PL.Executors
 {
     public class MenuItemExecutor
@@ -35,11 +38,11 @@ namespace RestaurantApp.PL.Executors
             }
 
             var categories = await _categoryService.GetAllCategoriesAsync();
-            var categoryDtos = _mapper.Map<List<CategoryDto>>(categories);
+            var categoryDtos = _mapper.Map<List<CategoryReturnDto>>(categories);
             
             Console.WriteLine("\nMövcud Kateqoriyalar:");
-            Console.WriteLine(CategoryDto.GetHeader());
-            Console.WriteLine(CategoryDto.GetSeparator());
+            Console.WriteLine(CategoryReturnDto.GetHeader());
+            Console.WriteLine(CategoryReturnDto.GetSeparator());
             foreach (var cat in categoryDtos)
             {
                 Console.WriteLine(cat);
@@ -138,7 +141,7 @@ namespace RestaurantApp.PL.Executors
             try
             {
                 var items = await _menuItemService.GetAllMenuItemsAsync();
-                var itemDtos = _mapper.Map<List<MenuItemDto>>(items);
+                var itemDtos = _mapper.Map<List<MenuItemReturnDto>>(items);
 
                 if (!itemDtos.Any())
                 {
@@ -146,8 +149,8 @@ namespace RestaurantApp.PL.Executors
                     return;
                 }
 
-                Console.WriteLine(MenuItemDto.GetHeader());
-                Console.WriteLine(MenuItemDto.GetSeparator());
+                Console.WriteLine(MenuItemReturnDto.GetHeader());
+                Console.WriteLine(MenuItemReturnDto.GetSeparator());
                 foreach (var item in itemDtos)
                 {
                     Console.WriteLine(item);
@@ -166,11 +169,11 @@ namespace RestaurantApp.PL.Executors
             try
             {
                 var categories = await _categoryService.GetAllCategoriesAsync();
-                var categoryDtos = _mapper.Map<List<CategoryDto>>(categories);
+                var categoryDtos = _mapper.Map<List<CategoryReturnDto>>(categories);
 
                 Console.WriteLine("\nMövcud Kateqoriyalar:");
-                Console.WriteLine(CategoryDto.GetHeader());
-                Console.WriteLine(CategoryDto.GetSeparator());
+                Console.WriteLine(CategoryReturnDto.GetHeader());
+                Console.WriteLine(CategoryReturnDto.GetSeparator());
                 foreach (var cat in categoryDtos)
                 {
                     Console.WriteLine(cat);
@@ -186,7 +189,7 @@ namespace RestaurantApp.PL.Executors
                 }
 
                 var items = await _menuItemService.GetMenuItemsByCategoryAsync(categoryId);
-                var itemDtos = _mapper.Map<List<MenuItemDto>>(items);
+                var itemDtos = _mapper.Map<List<MenuItemReturnDto>>(items);
 
                 if (!itemDtos.Any())
                 {
@@ -194,8 +197,8 @@ namespace RestaurantApp.PL.Executors
                     return;
                 }
 
-                Console.WriteLine(MenuItemDto.GetHeader());
-                Console.WriteLine(MenuItemDto.GetSeparator());
+                Console.WriteLine(MenuItemReturnDto.GetHeader());
+                Console.WriteLine(MenuItemReturnDto.GetSeparator());
                 foreach (var item in itemDtos)
                 {
                     Console.WriteLine(item);
@@ -232,7 +235,7 @@ namespace RestaurantApp.PL.Executors
             try
             {
                 var items = await _menuItemService.GetMenuItemsByPriceRangeAsync(minPrice, maxPrice);
-                var itemDtos = _mapper.Map<List<MenuItemDto>>(items);
+                var itemDtos = _mapper.Map<List<MenuItemReturnDto>>(items);
 
                 if (!itemDtos.Any())
                 {
@@ -240,8 +243,8 @@ namespace RestaurantApp.PL.Executors
                     return;
                 }
 
-                Console.WriteLine(MenuItemDto.GetHeader());
-                Console.WriteLine(MenuItemDto.GetSeparator());
+                Console.WriteLine(MenuItemReturnDto.GetHeader());
+                Console.WriteLine(MenuItemReturnDto.GetSeparator());
                 foreach (var item in itemDtos)
                 {
                     Console.WriteLine(item);
@@ -269,7 +272,7 @@ namespace RestaurantApp.PL.Executors
             try
             {
                 var items = await _menuItemService.SearchMenuItemsAsync(searchTerm);
-                var itemDtos = _mapper.Map<List<MenuItemDto>>(items);
+                var itemDtos = _mapper.Map<List<MenuItemReturnDto>>(items);
 
                 if (!itemDtos.Any())
                 {
@@ -277,8 +280,8 @@ namespace RestaurantApp.PL.Executors
                     return;
                 }
 
-                Console.WriteLine(MenuItemDto.GetHeader());
-                Console.WriteLine(MenuItemDto.GetSeparator());
+                Console.WriteLine(MenuItemReturnDto.GetHeader());
+                Console.WriteLine(MenuItemReturnDto.GetSeparator());
                 foreach (var item in itemDtos)
                 {
                     Console.WriteLine(item);

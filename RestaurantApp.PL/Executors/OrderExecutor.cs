@@ -1,5 +1,6 @@
 using AutoMapper;
-using RestaurantApp.BBL.DTOs;
+using RestaurantApp.BBL.DTOs.MenuItems;
+using RestaurantApp.BBL.DTOs.Orders;
 using RestaurantApp.BBL.Interfaces;
 
 namespace RestaurantApp.PL.Executors
@@ -24,7 +25,7 @@ namespace RestaurantApp.PL.Executors
             try
             {
                 var allItems = await _menuItemService.GetAllMenuItemsAsync();
-                var itemDtos = _mapper.Map<List<MenuItemDto>>(allItems);
+                var itemDtos = _mapper.Map<List<MenuItemReturnDto>>(allItems);
 
                 if (!itemDtos.Any())
                 {
@@ -33,8 +34,8 @@ namespace RestaurantApp.PL.Executors
                 }
 
                 Console.WriteLine("\nMövcud Menu Item-lar:");
-                Console.WriteLine(MenuItemDto.GetHeader());
-                Console.WriteLine(MenuItemDto.GetSeparator());
+                Console.WriteLine(MenuItemReturnDto.GetHeader());
+                Console.WriteLine(MenuItemReturnDto.GetSeparator());
                 foreach (var item in itemDtos)
                 {
                     Console.WriteLine(item);
