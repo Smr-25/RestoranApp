@@ -1,4 +1,6 @@
-﻿var serviceProvider = ConfigureServices();
+﻿using RestaurantApp.PL.Helpers;
+
+var serviceProvider = ConfigureServices();
 var menuExecutor = serviceProvider.GetRequiredService<MenuItemExecutor>();
 var orderExecutor = serviceProvider.GetRequiredService<OrderExecutor>();
 var categoryExecutor = serviceProvider.GetRequiredService<CategoryExecutor>();
@@ -10,13 +12,13 @@ while (true)
     var choiceInput = Console.ReadLine();
     if (string.IsNullOrWhiteSpace(choiceInput))
     {
-        Console.WriteLine("Yanlış seçim! Yenidən cəhd edin.");
+        ConsoleHelper.WriteError("Yanlış seçim! Yenidən cəhd edin.");
         goto Choice;
     }
 
     if (!int.TryParse(choiceInput, out var choice))
     {
-        Console.WriteLine("Yanlış format! Yenidən cəhd edin.");
+        ConsoleHelper.WriteError("Yanlış format! Yenidən cəhd edin.");
         goto Choice;
     }
 
@@ -32,25 +34,26 @@ while (true)
             await HandleOrderOperations(orderExecutor);
             break;
         case (int)MainMenuChoice.Exit:
-            Console.WriteLine("Sistemdən çıxılır...");
+            ConsoleHelper.WriteSuccess("Sistemdən çıxılır...");
             return;
         default:
-            Console.WriteLine("Yanlış seçim! Yenidən cəhd edin.");
+            ConsoleHelper.WriteError("Yanlış seçim! Yenidən cəhd edin.");
             goto Choice;
     }
 }
 
 void ShowMainMenu()
 {
-    Console.WriteLine("\n" + new string('=', 50));
-    Console.WriteLine("   RESTORAN İDARƏETMƏ SİSTEMİ");
-    Console.WriteLine(new string('=', 50));
-    Console.WriteLine("1. Menu üzərində əməliyyat aparmaq");
-    Console.WriteLine("2. Kateqoriyalar üzərində əməliyyat aparmaq");
-    Console.WriteLine("3. Sifarişlər üzərində əməliyyat aparmaq");
-    Console.WriteLine("0. Sistemdən çıxmaq");
-    Console.WriteLine(new string('=', 50));
-    Console.Write("Seçiminiz: ");
+    Console.WriteLine();
+    ConsoleHelper.WriteHeader(new string('=', 50));
+    ConsoleHelper.WriteHeader("   RESTORAN İDARƏETMƏ SİSTEMİ");
+    ConsoleHelper.WriteHeader(new string('=', 50));
+    ConsoleHelper.WriteInfo("1. Menu üzərində əməliyyat aparmaq");
+    ConsoleHelper.WriteInfo("2. Kateqoriyalar üzərində əməliyyat aparmaq");
+    ConsoleHelper.WriteInfo("3. Sifarişlər üzərində əməliyyat aparmaq");
+    ConsoleHelper.WriteInfo("0. Sistemdən çıxmaq");
+    ConsoleHelper.WriteHeader(new string('=', 50));
+    ConsoleHelper.WritePrompt("Seçiminiz: ");
 }
 
 async Task HandleMenuOperations(MenuItemExecutor executor)
@@ -60,14 +63,15 @@ async Task HandleMenuOperations(MenuItemExecutor executor)
         executor.ShowMenuOperationsMenuAsync();
         Choice:
         var choiceInput = Console.ReadLine();
-        if(string.IsNullOrWhiteSpace(choiceInput))
+        if (string.IsNullOrWhiteSpace(choiceInput))
         {
-            Console.WriteLine("Yanlış seçim! Yenidən cəhd edin.");
+            ConsoleHelper.WriteError("Yanlış seçim! Yenidən cəhd edin.");
             goto Choice;
         }
-        if(!int.TryParse(choiceInput, out var choice))
+
+        if (!int.TryParse(choiceInput, out var choice))
         {
-            Console.WriteLine("Yanlış format! Yenidən cəhd edin.");
+            ConsoleHelper.WriteError("Yanlış format! Yenidən cəhd edin.");
             goto Choice;
         }
 
@@ -94,11 +98,14 @@ async Task HandleMenuOperations(MenuItemExecutor executor)
             case (int)MenuChoice.Search:
                 await executor.ExecuteSearchMenuItemsAsync();
                 break;
+            case (int)MenuChoice.ShowById:
+                await executor.ExecuteShowMenuItemByIdAsync();
+                break;
             case (int)MenuChoice.Exit:
-                Console.WriteLine("Menu əməliyyatlarından çıxılır...");
+                ConsoleHelper.WriteSuccess("Menu əməliyyatlarından çıxılır...");
                 return;
             default:
-                Console.WriteLine("Yanlış seçim! Yenidən cəhd edin.");
+                ConsoleHelper.WriteError("Yanlış seçim! Yenidən cəhd edin.");
                 goto Choice;
         }
     }
@@ -113,15 +120,16 @@ async Task HandleOrderOperations(OrderExecutor executor)
         var choiceInput = Console.ReadLine();
         if (string.IsNullOrWhiteSpace(choiceInput))
         {
-            Console.WriteLine("Yanlış seçim! Yenidən cəhd edin.");
+            ConsoleHelper.WriteError("Yanlış seçim! Yenidən cəhd edin.");
             goto Choice;
         }
 
         if (!int.TryParse(choiceInput, out int choice))
         {
-            Console.WriteLine("Yanlış format! Yenidən cəhd edin.");
+            ConsoleHelper.WriteError("Yanlış format! Yenidən cəhd edin.");
             goto Choice;
         }
+
         switch (choice)
         {
             case (int)OrderChoice.Add:
@@ -146,10 +154,10 @@ async Task HandleOrderOperations(OrderExecutor executor)
                 await executor.ExecuteShowOrderByNoAsync();
                 break;
             case (int)OrderChoice.Exit:
-                Console.WriteLine("Sifariş əməliyyatlarından çıxılır...");
+                ConsoleHelper.WriteSuccess("Sifariş əməliyyatlarından çıxılır...");
                 return;
             default:
-                Console.WriteLine("Yanlış seçim! Yenidən cəhd edin.");
+                ConsoleHelper.WriteError("Yanlış seçim! Yenidən cəhd edin.");
                 goto Choice;
         }
     }
@@ -164,13 +172,13 @@ async Task HandleCategoryOperations(CategoryExecutor executor)
         var choiceInput = Console.ReadLine();
         if (string.IsNullOrWhiteSpace(choiceInput))
         {
-            Console.WriteLine("Yanlış seçim! Yenidən cəhd edin.");
+            ConsoleHelper.WriteError("Yanlış seçim! Yenidən cəhd edin.");
             goto Choice;
         }
 
         if (!int.TryParse(choiceInput, out int choice))
         {
-            Console.WriteLine("Yanlış format! Yenidən cəhd edin.");
+            ConsoleHelper.WriteError("Yanlış format! Yenidən cəhd edin.");
             goto Choice;
         }
 
@@ -192,10 +200,10 @@ async Task HandleCategoryOperations(CategoryExecutor executor)
                 await executor.ExecuteShowCategoryByIdAsync();
                 break;
             case (int)CategoryChoice.Exit:
-                Console.WriteLine("Kateqoriya əməliyyatlarından çıxılır...");
+                ConsoleHelper.WriteSuccess("Kateqoriya əməliyyatlarından çıxılır...");
                 return;
             default:
-                Console.WriteLine("Yanlış seçim! Yenidən cəhd edin.");
+                ConsoleHelper.WriteError("Yanlış seçim! Yenidən cəhd edin.");
                 goto Choice;
         }
     }
@@ -220,5 +228,3 @@ IServiceProvider ConfigureServices()
     services.AddScoped<CategoryExecutor>();
     return services.BuildServiceProvider();
 }
-
-

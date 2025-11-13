@@ -33,15 +33,3 @@ C:/Users/samiraa/Desktop/MiniAppAll/RestaurantApp/RestaurantApp.Core/obj/Debug/n
 /Users/asmrofficialfinder/Documents/CodeAcademyMiniApp/RestaurantApp/RestoranApp/RestaurantApp.Core/obj/Debug/net8.0/refint/RestaurantApp.Core.dll
 /Users/asmrofficialfinder/Documents/CodeAcademyMiniApp/RestaurantApp/RestoranApp/RestaurantApp.Core/obj/Debug/net8.0/RestaurantApp.Core.pdb
 /Users/asmrofficialfinder/Documents/CodeAcademyMiniApp/RestaurantApp/RestoranApp/RestaurantApp.Core/obj/Debug/net8.0/ref/RestaurantApp.Core.dll
-C:\Users\samiraa\Desktop\MiniAppAll\RestaurantApp\RestaurantApp.Core\bin\Debug\net8.0\RestaurantApp.Core.deps.json
-C:\Users\samiraa\Desktop\MiniAppAll\RestaurantApp\RestaurantApp.Core\bin\Debug\net8.0\RestaurantApp.Core.dll
-C:\Users\samiraa\Desktop\MiniAppAll\RestaurantApp\RestaurantApp.Core\bin\Debug\net8.0\RestaurantApp.Core.pdb
-C:\Users\samiraa\Desktop\MiniAppAll\RestaurantApp\RestaurantApp.Core\obj\Debug\net8.0\RestaurantApp.Core.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\samiraa\Desktop\MiniAppAll\RestaurantApp\RestaurantApp.Core\obj\Debug\net8.0\RestaurantApp.Core.AssemblyInfoInputs.cache
-C:\Users\samiraa\Desktop\MiniAppAll\RestaurantApp\RestaurantApp.Core\obj\Debug\net8.0\RestaurantApp.Core.AssemblyInfo.cs
-C:\Users\samiraa\Desktop\MiniAppAll\RestaurantApp\RestaurantApp.Core\obj\Debug\net8.0\RestaurantApp.Core.csproj.CoreCompileInputs.cache
-C:\Users\samiraa\Desktop\MiniAppAll\RestaurantApp\RestaurantApp.Core\obj\Debug\net8.0\RestaurantApp.Core.sourcelink.json
-C:\Users\samiraa\Desktop\MiniAppAll\RestaurantApp\RestaurantApp.Core\obj\Debug\net8.0\RestaurantApp.Core.dll
-C:\Users\samiraa\Desktop\MiniAppAll\RestaurantApp\RestaurantApp.Core\obj\Debug\net8.0\refint\RestaurantApp.Core.dll
-C:\Users\samiraa\Desktop\MiniAppAll\RestaurantApp\RestaurantApp.Core\obj\Debug\net8.0\RestaurantApp.Core.pdb
-C:\Users\samiraa\Desktop\MiniAppAll\RestaurantApp\RestaurantApp.Core\obj\Debug\net8.0\ref\RestaurantApp.Core.dll

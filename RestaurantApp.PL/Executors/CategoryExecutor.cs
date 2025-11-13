@@ -1,4 +1,5 @@
 using RestaurantApp.BBL.Dtos.Categories;
+using RestaurantApp.PL.Helpers;
 
 namespace RestaurantApp.PL.Executors;
 
@@ -13,13 +14,13 @@ public class CategoryExecutor
 
         public async Task ExecuteAddCategoryAsync()
         {
-            Console.WriteLine("\n=== Yeni Kateqoriya Əlavə Et ===");
+            ConsoleHelper.WriteHeader("\n=== Yeni Kateqoriya Əlavə Et ===");
             Name:
-            Console.Write("Ad daxil edin: ");
+            ConsoleHelper.WritePrompt("Ad daxil edin: ");
             string name = Console.ReadLine()!;
             if (string.IsNullOrWhiteSpace(name))
             {
-                Console.WriteLine("Ad boş ola bilməz! Yenidən cəhd edin.");
+                ConsoleHelper.WriteError("Ad boş ola bilməz! Yenidən cəhd edin.");
                 goto Name;
             }
 
@@ -27,33 +28,33 @@ public class CategoryExecutor
             {
                 var dto = new CategoryCreateDto { Name = name };
                 await _categoryService.AddCategoryAsync(dto);
-                Console.WriteLine("Kateqoriya uğurla əlavə edildi!");
+                ConsoleHelper.WriteSuccess("Kateqoriya uğurla əlavə edildi!");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Xəta: {ex.Message}");
+                ConsoleHelper.WriteError($"Xəta: {ex.Message}");
             }
         }
 
         public async Task ExecuteEditCategoryAsync()
         {
-            Console.WriteLine("\n=== Kateqoriya Düzəliş Et ===");
+            ConsoleHelper.WriteHeader("\n=== Kateqoriya Düzəliş Et ===");
 
             CategoryId:
-            Console.Write("Düzəliş ediləcək kateqoriya ID: ");
+            ConsoleHelper.WritePrompt("Düzəliş ediləcək kateqoriya ID: ");
             string idInput = Console.ReadLine()!;
             if (!int.TryParse(idInput, out int id))
             {
-                Console.WriteLine("Yanlış ID formatı! Yenidən cəhd edin.");
+                ConsoleHelper.WriteError("Yanlış ID formatı! Yenidən cəhd edin.");
                 goto CategoryId;
             }
 
             Name:
-            Console.Write("Yeni ad: ");
+            ConsoleHelper.WritePrompt("Yeni ad: ");
             string name = Console.ReadLine()!;
             if (string.IsNullOrWhiteSpace(name))
             {
-                Console.WriteLine("Ad boş ola bilməz! Yenidən cəhd edin.");
+                ConsoleHelper.WriteError("Ad boş ola bilməz! Yenidən cəhd edin.");
                 goto Name;
             }
 
@@ -61,41 +62,41 @@ public class CategoryExecutor
             {
                 var dto = new CategoryUpdateDto { Id = id, Name = name };
                 await _categoryService.EditCategoryAsync(dto);
-                Console.WriteLine("Kateqoriya uğurla yeniləndi!");
+                ConsoleHelper.WriteSuccess("Kateqoriya uğurla yeniləndi!");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Xəta: {ex.Message}");
+                ConsoleHelper.WriteError($"Xəta: {ex.Message}");
             }
         }
 
         public async Task ExecuteRemoveCategoryAsync()
         {
-            Console.WriteLine("\n=== Kateqoriya Sil ===");
+            ConsoleHelper.WriteHeader("\n=== Kateqoriya Sil ===");
 
             CategoryId:
-            Console.Write("Silinəcək kateqoriya ID: ");
+            ConsoleHelper.WritePrompt("Silinəcək kateqoriya ID: ");
             string idInput = Console.ReadLine()!;
             if (!int.TryParse(idInput, out int id))
             {
-                Console.WriteLine("Yanlış ID formatı! Yenidən cəhd edin.");
+                ConsoleHelper.WriteError("Yanlış ID formatı! Yenidən cəhd edin.");
                 goto CategoryId;
             }
 
             try
             {
                 await _categoryService.RemoveCategoryAsync(id);
-                Console.WriteLine("Kateqoriya uğurla silindi!");
+                ConsoleHelper.WriteSuccess("Kateqoriya uğurla silindi!");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Xəta: {ex.Message}");
+                ConsoleHelper.WriteError($"Xəta: {ex.Message}");
             }
         }
 
     public async Task ExecuteShowAllCategoriesAsync()
     {
-        Console.WriteLine("\n=== Bütün Kateqoriyalar ===");
+        ConsoleHelper.WriteHeader("\n=== Bütün Kateqoriyalar ===");
 
         try
         {
@@ -103,12 +104,12 @@ public class CategoryExecutor
 
             if (!categoryDtos.Any())
             {
-                Console.WriteLine("Heç bir kateqoriya tapılmadı.");
+                ConsoleHelper.WriteWarning("Heç bir kateqoriya tapılmadı.");
                 return;
             }
 
-            Console.WriteLine(CategoryReturnDto.GetHeader());
-            Console.WriteLine(CategoryReturnDto.GetSeparator());
+            ConsoleHelper.WriteInfo(CategoryReturnDto.GetHeader());
+            ConsoleHelper.WriteInfo(CategoryReturnDto.GetSeparator());
             foreach (var category in categoryDtos)
             {
                 Console.WriteLine(category);
@@ -116,20 +117,20 @@ public class CategoryExecutor
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Xəta: {ex.Message}");
+            ConsoleHelper.WriteError($"Xəta: {ex.Message}");
         }
     }
 
         public async Task ExecuteShowCategoryByIdAsync()
         {
-            Console.WriteLine("\n=== Kateqoriya Məlumatları ===");
+            ConsoleHelper.WriteHeader("\n=== Kateqoriya Məlumatları ===");
 
             CategoryId:
-            Console.Write("Kateqoriya ID: ");
+            ConsoleHelper.WritePrompt("Kateqoriya ID: ");
             string idInput = Console.ReadLine()!;
             if (!int.TryParse(idInput, out int id))
             {
-                Console.WriteLine("Yanlış ID formatı! Yenidən cəhd edin.");
+                ConsoleHelper.WriteError("Yanlış ID formatı! Yenidən cəhd edin.");
                 goto CategoryId;
             }
 
@@ -138,29 +139,29 @@ public class CategoryExecutor
                 var category = await _categoryService.GetCategoryByIdAsync(id);
                 if (category == null)
                 {
-                    Console.WriteLine($"ID-si {id} olan kateqoriya tapılmadı.");
+                    ConsoleHelper.WriteWarning($"ID-si {id} olan kateqoriya tapılmadı.");
                     return;
                 }
 
-                Console.WriteLine(CategoryReturnDto.GetHeader());
-                Console.WriteLine(CategoryReturnDto.GetSeparator());
+                ConsoleHelper.WriteInfo(CategoryReturnDto.GetHeader());
+                ConsoleHelper.WriteInfo(CategoryReturnDto.GetSeparator());
                 Console.WriteLine(category);
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Xəta: {ex.Message}");
+                ConsoleHelper.WriteError($"Xəta: {ex.Message}");
             }
         }
     
     public void ShowCategoryOperationsMenuAsync()
     {
-        Console.WriteLine("\n=== Kateqoriya Əməliyyatları ===");
-        Console.WriteLine("1. Yeni Kateqoriya Əlavə Et");
-        Console.WriteLine("2. Kateqoriya Düzəliş Et");
-        Console.WriteLine("3. Kateqoriya Sil");
-        Console.WriteLine("4. Bütün Kateqoriyaları Göstər");
-        Console.WriteLine("5. ID-yə Görə Kateqoriya Göstər");
-        Console.WriteLine("0. Çıxış");
-        Console.Write("Seçiminiz: ");
+        ConsoleHelper.WriteHeader("\n=== Kateqoriya Əməliyyatları ===");
+        ConsoleHelper.WriteInfo("1. Yeni Kateqoriya Əlavə Et");
+        ConsoleHelper.WriteInfo("2. Kateqoriya Düzəliş Et");
+        ConsoleHelper.WriteInfo("3. Kateqoriya Sil");
+        ConsoleHelper.WriteInfo("4. Bütün Kateqoriyaları Göstər");
+        ConsoleHelper.WriteInfo("5. ID-yə Görə Kateqoriya Göstər");
+        ConsoleHelper.WriteInfo("0. Çıxış");
+        ConsoleHelper.WritePrompt("Seçiminiz: ");
     }
 }
