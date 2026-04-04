@@ -1,13 +1,12 @@
-﻿using RestaurantApp.DDL.Common;
-
+using RestaurantApp.Core.Common;
+using System;
+using System.Collections.Generic;
 namespace RestaurantApp.Core.Models
 {
     public class Order : BaseEntity
     {
-        public List<OrderItem> OrderItems { get; set; }
-
         public decimal TotalAmount { get; set; }
-
-        public DateTime Date { get; set; }
+        public DateTime Date { get; set; } = DateTime.UtcNow;
+        public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
     }
 }
