@@ -1,27 +1,19 @@
-namespace RestaurantApp.DDL.Repostories.Intefaces
+using RestaurantApp.Core.Common;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
+namespace RestaurantApp.DDL.Repositories.Intefaces
 {
     public interface IRepository<T> where T : BaseEntity
     {
-        DbSet<T> Table { get; }
-
+        IQueryable<T> GetAllAsync(Expression<Func<T, bool>>? expression = null, params string[] includes);
+        Task<T?> GetAsync(Expression<Func<T, bool>> expression, params string[] includes);
+        Task<T?> GetByIdAsync(int id, params string[] includes);
         Task AddAsync(T entity);
-
-        Task UpdateAsync(T entity);
-
-        Task RemoveAsync(T entity);
-
-        Task SaveChangesAsync();
-
-        Task<T?> GetByIdAsync(int id);
-        
-        Task<bool> IsExistAsync(Expression<Func<T, bool>> predicate );
-        
-        Task<IQueryable<T>> GetAllAsync();
-        
-        Task <IQueryable<T>> GetAllAsync(Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null);
-        Task<IQueryable<T>> GetAllAsync(Expression<Func<T, bool>> predicate, Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null);
-        
-        Task<T?> GetByIdAsync(int id,Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null);
+        void Update(T entity);
+        void Remove(T entity);
+        Task<int> CommitAsync();
     }
 }
-

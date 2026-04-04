@@ -1,96 +1,76 @@
-namespace RestaurantApp.DDL.Repostories.Concretes
+using Microsoft.EntityFrameworkCore;
+using RestaurantApp.Core.Common;
+using RestaurantApp.DDL.Data;
+using RestaurantApp.DDL.Repositories.Intefaces;
+using System;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
+namespace RestaurantApp.DDL.Repositories.Concretes
 {
     public class Repository<T> : IRepository<T> where T : BaseEntity
     {
         private readonly RestaurantDbContext _context;
-
-        public Repository(RestaurantDbContext restaurantDbContext)
+        public Repository(RestaurantDbContext context)
         {
-            _context = restaurantDbContext;
-            Table = _context.Set<T>();
+            _context = context;
         }
-
-        public DbSet<T> Table { get; set; }
-
+        private DbSet<T> Table => _context.Set<T>();
+        public IQueryable<T> GetAllAsync(Expression<Func<T, bool>>? expression = null, params string[] includes)
+        {
+            var query = Table.AsQueryable();
+            if (includes != null)
+            {
+                foreach (string include in includes)
+                {
+                    query = query.Include(include);
+                }
+            }
+            if (expression != null)
+            {
+                query = query.Where(expression);
+            }
+            return query;
+        }
+        public async Task<T?> GetAsync(Expression<Func<T, bool>> expression, params string[] includes)
+        {
+            var query = Table.AsQueryable();
+            if (includes != null)
+            {
+                foreach (string include in includes)
+                {
+                    query = query.Include(include);
+                }
+            }
+            return await query.FirstOrDefaultAsync(expression);
+        }
+        public async Task<T?> GetByIdAsync(int id, params string[] includes)
+        {
+            var query = Table.AsQueryable();
+            if (includes != null)
+            {
+                foreach (string include in includes)
+                {
+                    query = query.Include(include);
+                }
+            }
+            return await query.FirstOrDefaultAsync(x => x.Id == id);
+        }
         public async Task AddAsync(T entity)
         {
             await Table.AddAsync(entity);
-            await SaveChangesAsync();
         }
-
-        public async Task UpdateAsync(T entity)
-        {
-            Table.Update(entity);
-            await SaveChangesAsync();
-        }
-
-        public async Task RemoveAsync(T entity)
+        public void Remove(T entity)
         {
             Table.Remove(entity);
-            await SaveChangesAsync();
         }
-
-        public async Task SaveChangesAsync()
+        public void Update(T entity)
         {
-            await _context.SaveChangesAsync();
+            Table.Update(entity);
         }
-
-        public async Task<T?> GetByIdAsync(int id)
+        public async Task<int> CommitAsync()
         {
-            return await Table.FindAsync(id);
-        }
-
-        public async Task<bool> IsExistAsync(Expression<Func<T, bool>> predicate)
-        {
-            return await Table.AnyAsync(predicate);
-        }
-
-        public async Task<IQueryable<T>> GetAllAsync()
-        {
-            return Table.AsQueryable();
-        }
-
-        public async Task<IQueryable<T>> GetAllAsync(
-            Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null)
-        {
-            IQueryable<T> query = Table;
-
-            if (include != null)
-            {
-                query = include(query);
-            }
-
-            return query;
-        }
-
-        public async Task<IQueryable<T>> GetAllAsync(Expression<Func<T, bool>> predicate = null,
-            Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null)
-        {
-            IQueryable<T> query = Table;
-
-            if (include != null)
-            {
-                query = include(query);
-            }
-
-            if (predicate != null)
-            {
-                query = query.Where(predicate);
-            }
-
-            return query;
-        }
-
-        public async Task<T?> GetByIdAsync(int id, Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null)
-        {
-            IQueryable<T> query = Table;
-
-            if (include != null)
-            {
-                query = include(query);
-            }
-
-            return await query.FirstOrDefaultAsync(e => e.Id == id);
+            return await _context.SaveChangesAsync();
         }
     }
 }
