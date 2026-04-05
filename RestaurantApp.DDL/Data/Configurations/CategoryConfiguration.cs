@@ -1,14 +1,10 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using RestaurantApp.Core.Models;
-namespace RestaurantApp.DDL.Data.Configurations
+namespace RestaurantApp.DDL.Data.Configurations;
+
+public class CategoryConfiguration : IEntityTypeConfiguration<Category>
 {
-    public class CategoryConfiguration : IEntityTypeConfiguration<Category>
+    public void Configure(EntityTypeBuilder<Category> builder)
     {
-        public void Configure(EntityTypeBuilder<Category> builder)
-        {
-            builder.HasKey(c => c.Id);
-            builder.Property(c => c.Name).IsRequired().HasMaxLength(100);
-        }
+        builder.HasKey(c => c.Id);
+        builder.Property(c => c.Name).IsRequired().HasMaxLength(100);
     }
 }

@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using RestaurantApp.Core.Common;
 using RestaurantApp.DDL.Data;
-using RestaurantApp.DDL.Repositories.Intefaces;
+using RestaurantApp.DDL.Repositories.Interfaces;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
