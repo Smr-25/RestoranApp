@@ -2,20 +2,16 @@ using RestaurantApp.Core.Common;
 
 namespace RestaurantApp.DDL.Repositories.Concretes
 {
-    public class Repository<T> : IRepository<T> where T : BaseEntity
+    public class Repository<T>(RestaurantDbContext context) : IRepository<T>
+        where T : BaseEntity
     {
-        private readonly RestaurantDbContext _context;
-        public Repository(RestaurantDbContext context)
-        {
-            _context = context;
-        }
-        private DbSet<T> Table => _context.Set<T>();
+        private DbSet<T> Table => context.Set<T>();
         public IQueryable<T> GetAllAsync(Expression<Func<T, bool>>? expression = null, params string[]? includes)
         {
             var query = Table.AsQueryable();
             if (includes != null)
             {
-                foreach (string include in includes)
+                foreach (var include in includes)
                 {
                     query = query.Include(include);
                 }
@@ -114,7 +110,7 @@ namespace RestaurantApp.DDL.Repositories.Concretes
         }
         public async Task<int> SaveChangesAsync()
         {
-            return await _context.SaveChangesAsync();
+            return await context.SaveChangesAsync();
         }
         public async Task<bool> IsExistAsync(Expression<Func<T, bool>> expression)
         {
@@ -122,7 +118,7 @@ namespace RestaurantApp.DDL.Repositories.Concretes
         }
         public async Task<int> CommitAsync()
         {
-            return await _context.SaveChangesAsync();
+            return await context.SaveChangesAsync();
         }
     }
 }

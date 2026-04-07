@@ -1,0 +1,9 @@
+global using AutoMapper;
+global using RestaurantApp.BBL.Dtos.Categories;
+global using RestaurantApp.BBL.Dtos.MenuItems;
+global using RestaurantApp.BBL.Dtos.OrderItems;
+global using RestaurantApp.BBL.Dtos.Orders;
+global using RestaurantApp.Core.Models;
+global using System;
+global using System.Collections.Generic;
+global using System.Linq;
