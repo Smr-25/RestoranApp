@@ -2,7 +2,25 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="text-center mt-5">
+    <h1 class="display-4 mb-4">Restoran Idareetme Sistemi</h1>
+    <p class="lead">Sisteme xosh gelmisiniz. Zehmet olmasa asagidaki emeliyyatlardan birini secin:</p>
+
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-4 mb-3">
+            <a href="@Url.Action("Index", "Menu")" class="btn btn-primary btn-lg w-100 p-4" style="text-decoration: none;">
+                1 - Menu uzerinde emeliyyat aparmaq
+            </a>
+        </div>
+        <div class="col-md-4 mb-3">
+            <a href="@Url.Action("Index", "Order")" class="btn btn-success btn-lg w-100 p-4" style="text-decoration: none;">
+                2 - Sifarisler uzerinde emeliyyat aparmaq
+            </a>
+        </div>
+        <div class="col-md-4 mb-3">
+            <button onclick="alert('Sistemden Cixish')" class="btn btn-danger btn-lg w-100 p-4">
+                0 - Sistemden cixmaq
+            </button>
+        </div>
+    </div>
 </div>

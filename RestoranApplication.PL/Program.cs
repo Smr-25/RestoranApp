@@ -1,9 +1,21 @@
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddJsonFile("appsettings.Mac.json", optional: true, reloadOnChange: true);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<RestaurantApp.DDL.Data.RestaurantDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped(typeof(RestaurantApp.DDL.Repositories.Interfaces.IRepository<>), typeof(RestaurantApp.DDL.Repositories.Concretes.Repository<>));
+builder.Services.AddScoped<RestaurantApp.BBL.Interfaces.ICategoryService, RestaurantApp.BBL.Services.CategoryService>();
+builder.Services.AddScoped<RestaurantApp.BBL.Interfaces.IMenuItemService, RestaurantApp.BBL.Services.MenuItemService>();
+builder.Services.AddScoped<RestaurantApp.BBL.Interfaces.IOrderService, RestaurantApp.BBL.Services.OrderService>();
+
+builder.Services.AddAutoMapper(typeof(RestaurantApp.BBL.Profiles.MappingProfile).Assembly);
 
 var app = builder.Build();
 
