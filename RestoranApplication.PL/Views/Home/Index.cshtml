@@ -3,23 +3,23 @@
 }
 
 <div class="text-center mt-5">
-    <h1 class="display-4 mb-4">Restoran Idareetme Sistemi</h1>
-    <p class="lead">Sisteme xosh gelmisiniz. Zehmet olmasa asagidaki emeliyyatlardan birini secin:</p>
+    <h1 class="display-4 mb-4">Restaurant Management System</h1>
+    <p class="lead">Welcome to the system. Please select one of the operations below:</p>
 
     <div class="row justify-content-center mt-5">
         <div class="col-md-4 mb-3">
             <a href="@Url.Action("Index", "Menu")" class="btn btn-primary btn-lg w-100 p-4" style="text-decoration: none;">
-                1 - Menu uzerinde emeliyyat aparmaq
+                1 - Menu Operations
             </a>
         </div>
         <div class="col-md-4 mb-3">
             <a href="@Url.Action("Index", "Order")" class="btn btn-success btn-lg w-100 p-4" style="text-decoration: none;">
-                2 - Sifarisler uzerinde emeliyyat aparmaq
+                2 - Order Operations
             </a>
         </div>
         <div class="col-md-4 mb-3">
-            <button onclick="alert('Sistemden Cixish')" class="btn btn-danger btn-lg w-100 p-4">
-                0 - Sistemden cixmaq
+            <button onclick="window.close()" class="btn btn-danger btn-lg w-100 p-4">
+                0 - Exit System
             </button>
         </div>
     </div>
