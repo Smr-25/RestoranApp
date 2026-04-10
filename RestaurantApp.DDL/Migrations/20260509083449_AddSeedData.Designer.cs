@@ -9,18 +9,18 @@ using RestaurantApp.DDL.Data;
 
 #nullable disable
 
-namespace RestaurantApp.DDL.Data.Migrations
+namespace RestaurantApp.DDL.Migrations
 {
     [DbContext(typeof(RestaurantDbContext))]
-    [Migration("20251106102054_mig_3")]
-    partial class mig_3
+    [Migration("20260509083449_AddSeedData")]
+    partial class AddSeedData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0")
+                .HasAnnotation("ProductVersion", "10.0.0-preview.2.25163.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -33,18 +33,36 @@ namespace RestaurantApp.DDL.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CategoryId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
-
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Soups"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Main Courses"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Drinks"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Desserts"
+                        });
                 });
 
             modelBuilder.Entity("RestaurantApp.Core.Models.MenuItem", b =>
@@ -60,7 +78,8 @@ namespace RestaurantApp.DDL.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
@@ -69,7 +88,68 @@ namespace RestaurantApp.DDL.Data.Migrations
 
                     b.HasIndex("CategoryId");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("MenuItems");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CategoryId = 1,
+                            Name = "Lentil Soup",
+                            Price = 5.50m
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CategoryId = 1,
+                            Name = "Chicken Soup",
+                            Price = 6.00m
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CategoryId = 2,
+                            Name = "Beef Steak",
+                            Price = 25.00m
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CategoryId = 2,
+                            Name = "Grilled Chicken",
+                            Price = 15.50m
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CategoryId = 3,
+                            Name = "Coca Cola",
+                            Price = 2.00m
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CategoryId = 3,
+                            Name = "Orange Juice",
+                            Price = 3.50m
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CategoryId = 4,
+                            Name = "Cheesecake",
+                            Price = 7.00m
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CategoryId = 4,
+                            Name = "Tiramisu",
+                            Price = 8.50m
+                        });
                 });
 
             modelBuilder.Entity("RestaurantApp.Core.Models.Order", b =>
@@ -108,6 +188,9 @@ namespace RestaurantApp.DDL.Data.Migrations
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("MenuItemId");
@@ -117,19 +200,12 @@ namespace RestaurantApp.DDL.Data.Migrations
                     b.ToTable("OrderItems");
                 });
 
-            modelBuilder.Entity("RestaurantApp.Core.Models.Category", b =>
-                {
-                    b.HasOne("RestaurantApp.Core.Models.Category", null)
-                        .WithMany("Categories")
-                        .HasForeignKey("CategoryId");
-                });
-
             modelBuilder.Entity("RestaurantApp.Core.Models.MenuItem", b =>
                 {
                     b.HasOne("RestaurantApp.Core.Models.Category", "Category")
-                        .WithMany()
+                        .WithMany("MenuItems")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Category");
@@ -138,9 +214,9 @@ namespace RestaurantApp.DDL.Data.Migrations
             modelBuilder.Entity("RestaurantApp.Core.Models.OrderItem", b =>
                 {
                     b.HasOne("RestaurantApp.Core.Models.MenuItem", "MenuItem")
-                        .WithMany()
+                        .WithMany("OrderItems")
                         .HasForeignKey("MenuItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("RestaurantApp.Core.Models.Order", "Order")
@@ -156,7 +232,12 @@ namespace RestaurantApp.DDL.Data.Migrations
 
             modelBuilder.Entity("RestaurantApp.Core.Models.Category", b =>
                 {
-                    b.Navigation("Categories");
+                    b.Navigation("MenuItems");
+                });
+
+            modelBuilder.Entity("RestaurantApp.Core.Models.MenuItem", b =>
+                {
+                    b.Navigation("OrderItems");
                 });
 
             modelBuilder.Entity("RestaurantApp.Core.Models.Order", b =>
