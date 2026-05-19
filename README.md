@@ -1,138 +1,249 @@
-# RestoranApp
+# 🍽️ RestoranApp
 
-`RestoranApp` .NET 10 üzərində qurulmuş, qatlı arxitekturaya sahib ASP.NET Core MVC restoran idarəetmə tətbiqidir. Layihə menyu idarəsi və sifariş idarəsi funksiyalarını təqdim edir.
+RestoranApp is a modern ASP.NET Core MVC restaurant management application built with **.NET 10** using a clean layered architecture approach.
 
-## Mündəricat
-- [Layihə haqqında](#layihə-haqqında)
-- [Texnologiyalar](#texnologiyalar)
-- [Arxitektura](#arxitektura)
-- [Funksionallıq](#funksionallıq)
-- [Quraşdırma tələbləri](#quraşdırma-tələbləri)
-- [Layihəni işə salmaq](#layihəni-işə-salmaq)
-- [Verilənlər bazası (EF Core Migrations)](#verilənlər-bazası-ef-core-migrations)
-- [Konfiqurasiya](#konfiqurasiya)
-- [Layihə strukturu](#layihə-strukturu)
-- [Build və Test](#build-və-test)
-- [Known məsələlər](#known-məsələlər)
+The project provides menu management and order management functionalities designed to simplify restaurant operations.
 
-## Layihə haqqında
-Bu tətbiq restoran əməliyyatlarını sadələşdirmək üçün hazırlanıb:
-- **Menyu məhsulu əlavə et / redaktə et / sil**
-- **Menyu siyahısı və filterlər** (kateqoriya, qiymət intervalı, ad üzrə axtarış)
-- **Sifariş yarat / ləğv et**
-- **Sifariş siyahısı və filterlər** (tarix intervalı, məbləğ intervalı, dəqiq tarix)
-- **Sifariş detalları** (məhsullar, say, subtotal, ümumi məbləğ)
+---
 
-## Texnologiyalar
-- **.NET 10 (`net10.0`)**
-- **ASP.NET Core MVC**
-- **Entity Framework Core 10 Preview**
-- **SQL Server provider (EF Core)**
-- **AutoMapper**
-- **Bootstrap + jQuery**
+# 📌 Table of Contents
 
-## Arxitektura
-Layihə 4 əsas qatdan ibarətdir:
+- [Overview](#overview)
+- [Tech Stack](#tech-stack)
+- [Architecture](#architecture)
+- [Features](#features)
+- [Requirements](#requirements)
+- [Getting Started](#getting-started)
+- [Database & EF Core Migrations](#database--ef-core-migrations)
+- [Configuration](#configuration)
+- [Project Structure](#project-structure)
+- [Build & Testing](#build--testing)
+- [Known Issues](#known-issues)
 
-1. **RestaurantApp.Core**
-   - Domen modelləri (`Category`, `MenuItem`, `Order`, `OrderItem`)
-   - `BaseEntity`
+---
 
-2. **RestaurantApp.DDL**
-   - `RestaurantDbContext`
-   - Entity konfiqurasiyaları
-   - Generic repository (`IRepository<T>`, `Repository<T>`)
-   - Migrations və seed data
+# 📖 Overview
 
-3. **RestaurantApp.BBL**
-   - Business servis interfeysləri və implementasiyaları
-   - DTO-lar
-   - Xəta sinifləri (`EntityNotFoundException`, `EntityAlreadyExistException`, `CountZeroException`)
-   - AutoMapper profili
+RestoranApp is designed to streamline restaurant workflows through a clean and maintainable architecture.
 
-4. **RestoranApplication.PL**
-   - MVC Controller + View qatları
-   - DI konfiqurasiyası (`Program.cs`)
-   - UI və istifadəçi axını
+The application includes:
 
-## Funksionallıq
+- Menu management
+- Product filtering & searching
+- Order management
+- Order detail tracking
+- Dynamic filtering options
 
-### Menyu əməliyyatları
-- Yeni menyu məhsulu əlavə etmə
-- Mövcud məhsulu redaktə etmə
-- Məhsulu silmə
-- Bütün məhsulları göstərmə
-- Kateqoriyaya görə filtr
-- Qiymət intervalına görə filtr
-- Ada görə axtarış
+---
 
-### Sifariş əməliyyatları
-- Yeni sifariş yaratma (birdən çox məhsul sətri)
-- Sifarişi ləğv etmə
-- Bütün sifarişləri göstərmə
-- Tarix intervalına görə filtr
-- Məbləğ intervalına görə filtr
-- Dəqiq tarixə görə filtr
-- ID/No ilə sifariş detallarına baxış
+# ⚙️ Tech Stack
 
-## Quraşdırma tələbləri
+| Technology | Description |
+|------------|-------------|
+| .NET 10 | ASP.NET Core MVC Framework |
+| Entity Framework Core 10 Preview | ORM |
+| SQL Server | Database Provider |
+| AutoMapper | DTO & object mapping |
+| Bootstrap + jQuery | Frontend UI |
 
-### 1) .NET SDK
-Layihə `net10.0` target edir. Buna görə:
-- .NET 10 SDK (preview ola bilər) qurulu olmalıdır.
+---
 
-Yoxlama:
+# 🏗️ Architecture
+
+The solution follows a 4-layer architecture:
+
+---
+
+## 🔹 RestaurantApp.Core
+
+Contains:
+
+- Domain entities
+- Base models
+- Shared abstractions
+
+Main entities:
+
+- `Category`
+- `MenuItem`
+- `Order`
+- `OrderItem`
+- `BaseEntity`
+
+---
+
+## 🔹 RestaurantApp.DDL
+
+Responsible for:
+
+- `RestaurantDbContext`
+- Entity configurations
+- Generic Repository Pattern
+- Migrations & seed data
+
+Includes:
+
+- `IRepository<T>`
+- `Repository<T>`
+
+---
+
+## 🔹 RestaurantApp.BBL
+
+Contains:
+
+- Business services
+- DTOs
+- Interfaces
+- AutoMapper profiles
+- Custom exception classes
+
+Custom exceptions:
+
+- `EntityNotFoundException`
+- `EntityAlreadyExistException`
+- `CountZeroException`
+
+---
+
+## 🔹 RestoranApplication.PL
+
+Responsible for:
+
+- MVC Controllers & Views
+- Dependency Injection configuration
+- UI rendering
+- User interaction flow
+
+Application startup is configured inside:
+
+```text
+Program.cs
+```
+
+---
+
+# ✨ Features
+
+## 🍴 Menu Operations
+
+- Create menu items
+- Update existing products
+- Delete products
+- List all menu items
+- Category filtering
+- Price range filtering
+- Search by product name
+
+---
+
+## 🧾 Order Operations
+
+- Create new orders
+- Cancel orders
+- List all orders
+- Filter by date range
+- Filter by amount range
+- Filter by exact date
+- View order details by ID/Number
+
+---
+
+# 📋 Requirements
+
+Before running the project, make sure you have:
+
+- **.NET 10 SDK**
+- **SQL Server**
+- Optional: EF Core CLI Tool
+
+Verify SDK installation:
+
 ```bash
 dotnet --info
 ```
 
-### 2) SQL Server
-EF Core SQL Server provider istifadə olunur. Lokal SQL Server və ya SQL Server Express kifayətdir.
+Install EF CLI tool (optional):
 
-### 3) EF CLI (opsional, migration üçün)
 ```bash
 dotnet tool install --global dotnet-ef
 ```
 
-## Layihəni işə salmaq
+---
 
-Repository root-a keçin:
+# 🚀 Getting Started
+
+Navigate to the repository root:
+
 ```bash
 cd /home/runner/work/RestoranApp/RestoranApp
 ```
 
-Asılılıqları bərpa edin:
+Restore dependencies:
+
 ```bash
 dotnet restore RestaurantApp.sln
 ```
 
-Tətbiqi başladın:
+Run the application:
+
 ```bash
 dotnet run --project /home/runner/work/RestoranApp/RestoranApp/RestoranApplication.PL/RestoranApplication.PL.csproj
 ```
 
-Default launch URL-ləri (`launchSettings.json`):
-- `http://localhost:5113`
-- `https://localhost:7189`
+Default launch URLs:
 
-## Verilənlər bazası (EF Core Migrations)
+```text
+http://localhost:5113
+https://localhost:7189
+```
 
-Mövcud migration-ları DB-yə tətbiq edin:
+---
+
+# 🗄️ Database & EF Core Migrations
+
+Apply existing migrations to the database:
+
 ```bash
 dotnet ef database update \
   --project /home/runner/work/RestoranApp/RestoranApp/RestaurantApp.DDL/RestaurantApp.DDL.csproj \
   --startup-project /home/runner/work/RestoranApp/RestoranApp/RestoranApplication.PL/RestoranApplication.PL.csproj
 ```
 
-Migrations daxilində seed data mövcuddur:
-- Kateqoriyalar: `Soups`, `Main Courses`, `Drinks`, `Desserts`
-- Nümunə menyu məhsulları da ilkin olaraq əlavə olunur.
+---
 
-## Konfiqurasiya
+## 🌱 Seed Data
 
-`Program.cs` SQL Server üçün `DefaultConnection` connection string-i gözləyir.
+Initial seed data includes:
 
-`RestoranApplication.PL/appsettings.Development.json` (və ya istifadə etdiyiniz mühit faylı) daxilinə əlavə edin:
+### Categories
+
+- Soups
+- Main Courses
+- Drinks
+- Desserts
+
+### Sample Menu Items
+
+Several sample products are automatically inserted during migration.
+
+---
+
+# ⚡ Configuration
+
+The application expects a SQL Server connection string named:
+
+```text
+DefaultConnection
+```
+
+Add the following configuration inside:
+
+```text
+RestoranApplication.PL/appsettings.Development.json
+```
+
+Example:
 
 ```json
 {
@@ -142,9 +253,23 @@ Migrations daxilində seed data mövcuddur:
 }
 ```
 
-Qeyd: `Program.cs` daxilində `appsettings.Mac.json` optional şəkildə oxunur. İstəsəniz həmin faylı da yarada bilərsiniz.
+---
 
-## Layihə strukturu
+## Optional Local Configuration
+
+`Program.cs` also loads:
+
+```text
+appsettings.Mac.json
+```
+
+as an optional configuration source.
+
+You may create this file for local environment overrides.
+
+---
+
+# 📂 Project Structure
 
 ```text
 RestoranApp/
@@ -169,16 +294,44 @@ RestoranApp/
     └── Program.cs
 ```
 
-## Build və Test
-Repository root-dan:
+---
+
+# 🧑‍💻 Build & Testing
+
+Run from the repository root:
+
+## Build
 
 ```bash
 dotnet build RestaurantApp.sln
+```
+
+## Run Tests
+
+```bash
 dotnet test RestaurantApp.sln
 ```
 
-## Known məsələlər
-- Bəzi dependency-lər (`AutoMapper 12.0.1`) üçün hazırda GitHub advisory warning görünə bilər.
-- Layihə .NET 10 + EF Core 10 Preview istifadə etdiyi üçün stabil release mühitlərində uyğun SDK versiyası vacibdir.
+---
 
+# ⚠️ Known Issues
 
+- Some dependencies such as `AutoMapper 12.0.1` may currently show GitHub advisory warnings
+- Since the project uses **.NET 10** and **EF Core 10 Preview**, matching SDK versions are important for stable environments
+
+---
+
+# 🤝 Contributing
+
+Contributions are welcome!
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Open a Pull Request
+
+---
+
+# 📄 License
+
+This project is intended for educational and demonstration purposes.
