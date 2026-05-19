@@ -169,3 +169,17 @@ RestoranApp/
     ├── Views/
     ├── wwwroot/
     └── Program.cs
+
+🧪 Build and Test
+Execute structural tests and solution builds directly from the solution root:
+
+Compile solution binaries
+dotnet build RestaurantApp.sln
+
+Run target validation test suits
+dotnet test RestaurantApp.sln
+
+⚠️ Known Issues
+Certain baseline transient dependencies (AutoMapper 12.0.1) might flag a temporary GitHub software security advisory warning.
+
+Because this solution targets cutting-edge preview tech (.NET 10 + EF Core 10 Preview), targeted production runtime deployment environments must strictly replicate the matching SDK preview releases.
