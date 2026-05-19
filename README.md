@@ -90,63 +90,65 @@ This codebase explicitly targets `net10.0`. Ensure you have the appropriate SDK 
 * .NET 10 SDK (Preview versions are accepted).
 
 Verify your setup by running:
-```bash
-dotnet --info
-2) SQL Server
+`dotnet --info`
+
+### 2) SQL Server
 The system relies on the EF Core SQL Server provider. A local instance of SQL Server or SQL Server Express is highly recommended.
 
-3) EF Core CLI Tool (Optional, required for executing migrations manually)
-Bash
-dotnet tool install --global dotnet-ef
-🏃 Getting Started
-Navigate to the repository root directory:
+### 3) EF Core CLI Tool (Optional)
+`dotnet tool install --global dotnet-ef`
 
-Bash
-cd /home/runner/work/RestoranApp/RestoranApp
-Restore project dependencies:
+---
 
-Bash
-dotnet restore RestaurantApp.sln
+## 🏃 Getting Started
 
+1. Navigate to the repository root directory:
+   cd /home/runner/work/RestoranApp/RestoranApp
 
-3. **Spin up the Presentation Layer Application:**
-   ```bash
+2. Restore project dependencies:
+   dotnet restore RestaurantApp.sln
+
+3. Spin up the Presentation Layer Application:
    dotnet run --project /home/runner/work/RestoranApp/RestoranApp/RestoranApplication.PL/RestoranApplication.PL.csproj
-   
-🌐 Default Launch URLs (launchSettings.json):
-HTTP: http://localhost:5113
 
-HTTPS: https://localhost:7189
+### 🌐 Default Launch URLs (launchSettings.json):
+* **HTTP:** http://localhost:5113
+* **HTTPS:** https://localhost:7189
 
-🗄️ Database Configuration & Migrations
+---
+
+## 🗄️ Database Configuration & Migrations
+
 Apply existing Entity Framework migrations to your configured database context using the following command:
 
-Bash
-dotnet ef database update \
-  --project /home/runner/work/RestoranApp/RestoranApp/RestaurantApp.DDL/RestaurantApp.DDL.csproj \
-  --startup-project /home/runner/work/RestoranApp/RestoranApp/RestoranApplication.PL/RestoranApplication.PL.csproj
-🌱 Seed Data
+dotnet ef database update --project /home/runner/work/RestoranApp/RestoranApp/RestaurantApp.DDL/RestaurantApp.DDL.csproj --startup-project /home/runner/work/RestoranApp/RestoranApp/RestoranApplication.PL/RestoranApplication.PL.csproj
+
+### 🌱 Seed Data
 The database initialization automatically seeds essential structural parameters:
+* **Default Categories:** Soups, Main Courses, Drinks, Desserts
+* Initial placeholder menu items are pre-populated for demonstration.
 
-Default Categories: Soups, Main Courses, Drinks, Desserts
+---
 
-Initial placeholder menu items are pre-populated for demonstration.
+## 🔧 Configuration
 
-🔧 Configuration
-The Program.cs file expects a valid DefaultConnection connection string inside configuration file layers.
+The `Program.cs` file expects a valid `DefaultConnection` connection string inside configuration file layers. 
 
-Incorporate the target connection block into your RestoranApplication.PL/appsettings.Development.json (or any equivalent environment configuration matrix):
+Incorporate the target connection block into your `RestoranApplication.PL/appsettings.Development.json` (or any equivalent environment configuration matrix):
 
-JSON
 {
   "ConnectionStrings": {
     "DefaultConnection": "Server=localhost;Database=RestoranAppDb;Trusted_Connection=True;TrustServerCertificate=True"
   }
 }
-📝 Note: Program.cs is natively configured to safely scan an optional appsettings.Mac.json environment file. If you are developing on macOS environment ecosystems, feel free to isolate configurations into that target block.
 
-📁 Project Structure
-Plaintext
+Note: `Program.cs` is natively configured to safely scan an optional `appsettings.Mac.json` environment file. If you are developing on macOS environment ecosystems, feel free to isolate configurations into that target block.
+
+---
+
+## 📁 Project Structure
+
+```text
 RestoranApp/
 ├── RestaurantApp.sln
 ├── RestaurantApp.Core/
@@ -167,16 +169,3 @@ RestoranApp/
     ├── Views/
     ├── wwwroot/
     └── Program.cs
-🧪 Build and Test
-Execute structural tests and solution builds directly from the solution root:
-
-Bash
-# Compile solution binaries
-dotnet build RestaurantApp.sln
-
-# Run target validation test suits
-dotnet test RestaurantApp.sln
-⚠️ Known Issues
-Certain baseline transient dependencies (AutoMapper 12.0.1) might flag a temporary GitHub software security advisory warning.
-
-Because this solution targets cutting-edge preview tech (.NET 10 + EF Core 10 Preview), targeted production runtime deployment environments must strictly replicate the matching SDK preview releases.
